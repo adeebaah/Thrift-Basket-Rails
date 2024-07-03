@@ -1,4 +1,5 @@
 class Admin::StocksController < AdminController
+
   before_action :set_admin_stock, only: %i[ show edit update destroy ]
 
   # GET /admin/stocks or /admin/stocks.json
@@ -72,3 +73,4 @@ class Admin::StocksController < AdminController
     params.require(:stock).permit(:size, :amount)
   end
 end
+
