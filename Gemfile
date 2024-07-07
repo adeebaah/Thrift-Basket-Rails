@@ -73,3 +73,6 @@ gem "devise", "~> 4.9"
 gem "font-awesome-sass", "~> 6.5.1"
 gem "pg"
 gem "image_processing", "~> 1.2"
+gem 'chartkick'
+gem 'highcharts-rails'
+gem 'groupdate'

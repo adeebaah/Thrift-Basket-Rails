@@ -1,0 +1,28 @@
+<h1>Category show page</h1>
+
+<div class="min-h-screen flex justify-center">
+  <div class="flex flex-wrap flex-col mt-6">
+    <h2 class="text-lg text-gray-800">Filter</h2>
+
+  </div>
+  <div class="flex flex-wrap mt-6 gap-20 flex-grow justify-center items-start">
+    <% if @products.empty? %>
+      <p class="text-2xl text-left text-gray-800">NO Products Found</p>
+    <% else %>
+      <% @products.each do |product| %>
+        <%= link_to product_path(product) do %>
+          <div class="max-w-xs flex flex-col justify-center items-center">
+            <% if product.images.attached? %>
+              <%= image_tag product.images.first.variant(resize_to_limit: [250, 250]).processed, class: "rounded" %>
+            <% else %>
+              <%= image_tag "https://via.placeholder.com/250", class: "rounded" %>
+            <% end %>
+            <p class="mt-6 font-medium text-gray-800">
+              <%= product.name %>
+            </p>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

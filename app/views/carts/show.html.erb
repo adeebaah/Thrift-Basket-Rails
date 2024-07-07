@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cart Page</title>
+  <meta name="csrf-token" content="<%= form_authenticity_token %>">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="min-h-screen p-6 bg-gray-100">
+  <h1 class="text-3xl font-bold mb-6">Cart Page</h1>
+  <div id="errorContainer"></div>
+  <div id="cart-items" class="space-y-4"></div>
+  <div class="mt-4 font-medium" id="total"></div>
+  <button id="checkout" class="mt-6 py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded text-white">Checkout</button>
+  <button id="clear-cart" class="py-2 px-4 bg-red-500 hover:bg-red-600 rounded text-white">Clear Cart</button>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const cartContainer = document.getElementById('cart-items');
+        const totalContainer = document.getElementById('total');
+        const clearCartButton = document.getElementById('clear-cart');
+        const checkoutButton = document.getElementById('checkout');
+        const cartCount = document.getElementById('cart-count');
+
+        function loadCart() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let total = 0;
+            cartContainer.innerHTML = ''; // Clear previous content
+            totalContainer.innerHTML = ''; // Clear previous content
+            let cartItemCount = 0;
+
+            cart.forEach(item => {
+                total += item.price * item.quantity;
+                cartItemCount += item.quantity;
+                const div = document.createElement('div');
+                div.classList.add('bg-white', 'p-4', 'rounded', 'shadow', 'flex', 'justify-between', 'items-center');
+
+                div.innerHTML = `
+            <div>
+              <h3 class="text-lg font-semibold">${item.name}</h3>
+              <p>Price: $${(item.price / 100).toFixed(2)} - Size: ${item.size}</p>
+              <p>Quantity: ${item.quantity}</p>
+              <p>Subtotal: $${(item.price * item.quantity / 100).toFixed(2)}</p>
+            </div>
+            <div class="flex space-x-2">
+              <button class="bg-red-500 text-white px-2 py-1 rounded remove-item" data-id="${item.id}" data-size="${item.size}">Remove</button>
+              <button class="bg-green-500 text-white px-2 py-1 rounded increase-qty" data-id="${item.id}" data-size="${item.size}">+</button>
+              <button class="bg-yellow-500 text-white px-2 py-1 rounded decrease-qty" data-id="${item.id}" data-size="${item.size}">-</button>
+            </div>
+          `;
+
+                cartContainer.appendChild(div);
+            });
+
+            const totalEl = document.createElement('div');
+            totalEl.innerText = `Total: $${(total / 100).toFixed(2)}`;
+            totalContainer.appendChild(totalEl);
+
+            cartCount.innerText = cartItemCount;
+
+            document.querySelectorAll('.remove-item').forEach(button => {
+                button.addEventListener('click', removeFromCart);
+            });
+
+            document.querySelectorAll('.increase-qty').forEach(button => {
+                button.addEventListener('click', increaseQuantity);
+            });
+
+            document.querySelectorAll('.decrease-qty').forEach(button => {
+                button.addEventListener('click', decreaseQuantity);
+            });
+        }
+
+        function clearCart() {
+            localStorage.removeItem('cart');
+            loadCart();
+        }
+
+        function removeFromCart(event) {
+            const id = event.target.getAttribute('data-id');
+            const size = event.target.getAttribute('data-size');
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart = cart.filter(item => !(item.id === id && item.size === size));
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCart();
+        }
+
+        function increaseQuantity(event) {
+            const id = event.target.getAttribute('data-id');
+            const size = event.target.getAttribute('data-size');
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const index = cart.findIndex(item => item.id === id && item.size === size);
+            if (index >= 0) {
+                cart[index].quantity += 1;
+                localStorage.setItem('cart', JSON.stringify(cart));
+                loadCart();
+            }
+        }
+
+        function decreaseQuantity(event) {
+            const id = event.target.getAttribute('data-id');
+            const size = event.target.getAttribute('data-size');
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const index = cart.findIndex(item => item.id === id && item.size === size);
+            if (index >= 0) {
+                if (cart[index].quantity > 1) {
+                    cart[index].quantity -= 1;
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    loadCart();
+                } else {
+                    removeFromCart(event);
+                }
+            }
+        }
+
+        function checkout() {
+            const cart = JSON.parse(localStorage.getItem('cart'));
+            const payload = {
+                authenticity_token: document.querySelector("[name='csrf-token']").content,
+                cart: cart
+            };
+
+            fetch('/checkout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': document.querySelector("[name='csrf-token']").content
+                },
+                body: JSON.stringify(payload)
+            }).then(response => {
+                if (response.ok) {
+                    response.json().then(body => {
+                        window.location.href = body.url;
+                    });
+                } else {
+                    response.json().then(body => {
+                        const errorEl = document.createElement('div');
+                        errorEl.innerText = `There was an error processing your order. ${body.error}`;
+                        const errorContainer = document.getElementById('errorContainer');
+                        errorContainer.appendChild(errorEl);
+                    });
+                }
+            });
+        }
+
+        clearCartButton.addEventListener('click', clearCart);
+        checkoutButton.addEventListener('click', checkout);
+        loadCart();
+    });
+</script>
+</body>
+</html>

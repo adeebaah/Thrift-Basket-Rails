@@ -1,0 +1,11 @@
+<div class="category">
+  <h5>Categories</h5>
+  <% @main_categories.each do |category| %>
+    <%= link_to category_path(category) do %>
+      <div class="box f_flex mb-4">
+        <%= category.image.present? ? image_tag(category.image, class: "max-w-lg") : image_tag("http://via.placeholder.com/512") %>
+        <span><%= category.name %></span>
+      </div>
+    <% end %>
+  <% end %>
+</div>

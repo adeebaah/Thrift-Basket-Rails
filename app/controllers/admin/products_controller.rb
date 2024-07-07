@@ -1,25 +1,25 @@
 class Admin::ProductsController < AdminController
   before_action :set_admin_product, only: %i[ show edit update destroy ]
 
-  # GET /admin/products or /admin/products.json
+  # GET /admin/admin or /admin/admin.json
   def index
     @admin_products = Product.all
   end
 
-  # GET /admin/products/1 or /admin/products/1.json
+  # GET /admin/admin/1 or /admin/admin/1.json
   def show
   end
 
-  # GET /admin/products/new
+  # GET /admin/admin/new
   def new
     @admin_product = Product.new
   end
 
-  # GET /admin/products/1/edit
+  # GET /admin/admin/1/edit
   def edit
   end
 
-  # POST /admin/products or /admin/products.json
+  # POST /admin/admin or /admin/admin.json
   def create
     @admin_product = Product.new(admin_product_params)
 
@@ -34,7 +34,7 @@ class Admin::ProductsController < AdminController
     end
   end
 
-  # PATCH/PUT /admin/products/1 or /admin/products/1.json
+  # PATCH/PUT /admin/admin/1 or /admin/admin/1.json
   def update
     @admin_product = Product. find(params[:id])
     if @admin_product.update(admin_product_params.reject { |k| k["images"]})
@@ -49,7 +49,7 @@ class Admin::ProductsController < AdminController
     end
   end
 
-  # DELETE /admin/products/1 or /admin/products/1.json
+  # DELETE /admin/admin/1 or /admin/admin/1.json
   def destroy
     @admin_product.destroy!
 

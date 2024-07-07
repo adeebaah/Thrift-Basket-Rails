@@ -24,4 +24,8 @@ Rails.application.routes.draw do
 
   get '/admin', to: 'admin#index'
 
+  resources :categories, only: [:show]
+  resources :products, only: [:show]
+
+  get 'carts', to: 'carts#show'
 end
