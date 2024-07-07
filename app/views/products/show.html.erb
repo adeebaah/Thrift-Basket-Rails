@@ -37,14 +37,19 @@
     </button>
   </div>
 </div>
-
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         let selectedSize = null;
         const sizeButtons = document.querySelectorAll('.size-button');
         const selectedSizeEl = document.getElementById('selected-size');
         const addToCartButton = document.getElementById('add-to-cart');
-        const cartCount = document.getElementById('cart-count')
+        const cartCount = document.getElementById('cart-count');
+
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
+            cartCount.innerText = cartItemCount;
+        }
 
         sizeButtons.forEach(button => {
             button.addEventListener('click', (e) => {
@@ -81,6 +86,8 @@
                 const cartArray = [product];
                 localStorage.setItem('cart', JSON.stringify(cartArray));
             }
+
+            updateCartCount();
 
             alert("Product added to cart");
         });
