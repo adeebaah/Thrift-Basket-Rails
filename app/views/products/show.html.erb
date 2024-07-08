@@ -50,6 +50,16 @@
   </div>
 </div>
 
+<!--Out of Stock Modal-->
+
+<div id="outOfStockModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
+  <div class="bg-white p-6 rounded-lg shadow-lg">
+    <h2 class="text-xl font-bold mb-4">Out of Stock</h2>
+    <p class="mb-4">This product is currently out of stock.</p>
+    <button id="closeOutOfStockModal" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">Close</button>
+  </div>
+</div>
+
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         let selectedSize = null;
@@ -59,9 +69,15 @@
         const cartCount = document.getElementById('cart-count');
         const loginModal = document.getElementById('loginModal');
         const closeModal = document.getElementById('closeModal');
+        const outOfStockModal = document.getElementById('outOfStockModal');
+        const closeOutOfStockModal = document.getElementById('closeOutOfStockModal');
 
         closeModal.addEventListener('click', () => {
             loginModal.classList.add('hidden');
+        });
+
+        closeOutOfStockModal.addEventListener('click', () => {
+            outOfStockModal.classList.add('hidden');
         });
 
         function updateCartCount() {
@@ -122,17 +138,19 @@
                         },
                         body: JSON.stringify(product)
                     })
-                      .then(response => {
-                          if (response.ok) {
-                              return response.json();
-                          } else {
-                              throw new Error('Error adding product to cart');
-                          }
-                      })
+                      .then(response => response.json())
                       .then(data => {
-                          console.log('Updated Cart:', data);
-                          updateCartCount();
-                          alert("Product added to cart");
+                          if (data.success) {
+                              console.log('Updated Cart:', data);
+                              updateCartCount();
+                              alert("Product added to cart");
+                          } else {
+                              if (data.message === 'Stock not available') {
+                                  outOfStockModal.classList.remove('hidden');
+                              } else {
+                                  alert(data.message || 'Error adding product to cart');
+                              }
+                          }
                       })
                       .catch(error => console.error('Error:', error));
                 }

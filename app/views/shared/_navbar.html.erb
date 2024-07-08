@@ -21,13 +21,12 @@
               <%= button_to 'Logout', destroy_user_session_path, method: :delete, class: "text-gray-500 hover:underline py-2 rounded-md text-md font-medium" %>
               <%= link_to cart_path, class: "text-gray-500 hover:underline py-2 rounded-md text-md font-medium" do %>
                 <%= icon 'fa-solid', 'shopping-cart' %>
-
+                <span id="cart-count" class="absolute top-0 right-0 inline-block w-5 h-5 bg-red-500 text-white text-center rounded-full text-xs">0</span>
               <% end %>
             <% else %>
               <%= link_to 'Login', new_user_session_path, class: "text-gray-500 hover:underline py-2 rounded-md text-md font-medium" %>
               <%= link_to 'Sign Up', new_user_registration_path, class: "text-gray-500 hover:underline py-2 rounded-md text-md font-medium" %>
             <% end %>
-
           </div>
         </div>
       </div>
