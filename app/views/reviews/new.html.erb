@@ -1,0 +1,20 @@
+<!-- app/views/reviews/new.html.erb -->
+<h1 >Write a Review for <%= @product.name %></h1>
+
+<div class="min-h-screen">
+  <%= form_with model: [@product, @review], local: true do |form| %>
+    <div class="mb-4">
+      <%= form.label :rating, class: "block text-gray-700 font-bold mb-2" %>
+      <%= form.select :rating, options_for_select(1..5), {}, class: "form-select mt-1 block w-full" %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :comment, class: "block text-gray-700 font-bold mb-2" %>
+      <%= form.text_area :comment, class: "form-textarea mt-1 block w-full" %>
+    </div>
+
+    <div class="mt-4">
+      <%= form.submit "Submit Review", class: "bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" %>
+    </div>
+  <% end %>
+</div>

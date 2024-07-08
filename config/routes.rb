@@ -27,7 +27,10 @@ Rails.application.routes.draw do
   get '/admin', to: 'admin#index'
 
   resources :categories, only: [:show]
-  resources :products, only: [:show]
+
+  resources :products, only: [:show] do
+    resources :reviews, only: [:new, :create]
+    end
 
   resource :cart, only: [:show] do
     post 'add_item', on: :collection

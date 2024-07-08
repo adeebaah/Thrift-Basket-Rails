@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-
+  has_many :reviews, dependent: :destroy
   has_one :cart, dependent: :destroy
   after_create :create_cart
 
