@@ -76,3 +76,4 @@ gem "image_processing", "~> 1.2"
 gem 'chartkick'
 gem 'highcharts-rails'
 gem 'groupdate'
+gem "stripe", "~> 12.1"

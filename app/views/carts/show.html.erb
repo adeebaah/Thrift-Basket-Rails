@@ -9,11 +9,38 @@
 <div class="min-h-screen p-6 bg-gray-100">
   <h1 class="text-3xl font-bold mb-6">Cart Page</h1>
   <div id="errorContainer"></div>
-  <div id="cart-items" class="space-y-4"></div>
-  <div class="mt-4 font-medium" id="total"></div>
-  <button id="checkout" class="mt-6 py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded text-white">Checkout</button>
-  <button id="clear-cart" class="py-2 px-4 bg-red-500 hover:bg-red-600 rounded text-white">Clear Cart</button>
+  <div id="cart-items" class="space-y-4">
+    <% if @cart_items.any? %>
+      <% @cart_items.each do |item| %>
+        <div class="bg-white p-4 rounded shadow flex justify-between items-center">
+          <div>
+            <h3 class="text-lg font-semibold"><%= item.product.name %></h3>
+            <p>Price: $<%= (item.product.price / 100.0).round(2) %> - Size: <%= item.size %></p>
+            <p>Quantity: <%= item.quantity %></p>
+            <p>Subtotal: $<%= (item.product.price * item.quantity / 100.0).round(2) %></p>
+          </div>
+          <div class="flex space-x-2">
+            <%= button_to 'Remove', remove_item_cart_path(item), method: :delete, class: "bg-red-500 text-white px-2 py-1 rounded" %>
+            <%= button_to '+', increase_quantity_cart_path(item), method: :patch, class: "bg-green-500 text-white px-2 py-1 rounded" %>
+            <%= button_to '-', decrease_quantity_cart_path(item), method: :patch, class: "bg-yellow-500 text-white px-2 py-1 rounded" %>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <p>No items in cart</p>
+    <% end %>
+  </div>
+  <div class="mt-4 font-medium" id="total">
+    Total: $<%= (@cart_items.sum { |item| item.product.price * item.quantity } / 100.0).round(2) %>
+  </div>
+  <%= button_to 'Checkout', root_path, method: :post, class: "mt-6 py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded text-white" %>
+  <br>
+  <%= button_to 'Clear Cart', clear_cart_path, method: :delete, class: "py-2 px-4 bg-pink-500 hover:bg-red-600 rounded text-white" %>
 </div>
+
 
 </body>
 </html>
+
+
+

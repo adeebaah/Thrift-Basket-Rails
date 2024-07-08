@@ -1,4 +1,13 @@
 Rails.application.routes.draw do
+
+  get 'authenticated', to: 'sessions#authenticated'
+
+  devise_for :users, path: '', path_names: {
+    sign_in: 'login',
+    sign_up: 'signup',
+    sign_out: 'logout'
+  }
+
   namespace :admin do
     resources :orders
     resources :products do
@@ -8,18 +17,11 @@ Rails.application.routes.draw do
     resources :categories
   end
   devise_for :admins
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
-  get "up" => "rails/health#show", as: :rails_health_check
-
-  # Defines the root path route ("/")
   root "home#index"
 
   authenticated :admin_user do
     root to: "admin#index", as: :admin_root
-
   end
 
   get '/admin', to: 'admin#index'
@@ -27,5 +29,13 @@ Rails.application.routes.draw do
   resources :categories, only: [:show]
   resources :products, only: [:show]
 
-  get 'carts', to: 'carts#show'
+  resource :cart, only: [:show] do
+    post 'add_item', on: :collection
+    delete 'remove_item/:id', action: :remove_item, as: 'remove_item'
+    patch 'increase_quantity/:id', action: :increase_quantity, as: 'increase_quantity'
+    patch 'decrease_quantity/:id', action: :decrease_quantity, as: 'decrease_quantity'
+    delete 'clear', action: :clear, as: 'clear'
+  end
+
+  post 'checkout', to: 'checkouts#create'
 end

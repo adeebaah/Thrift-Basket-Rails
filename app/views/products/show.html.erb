@@ -37,6 +37,19 @@
     </button>
   </div>
 </div>
+
+<!-- Login Modal -->
+<div id="loginModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
+  <div class="bg-white p-6 rounded-lg shadow-lg">
+    <h2 class="text-xl font-bold mb-4">Login Required</h2>
+    <p class="mb-4">You need to log in to add items to the cart.</p>
+    <div class="flex space-x-4">
+      <a href="<%= new_user_session_path %>" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Login</a>
+      <button id="closeModal" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">Close</button>
+    </div>
+  </div>
+</div>
+
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         let selectedSize = null;
@@ -44,11 +57,39 @@
         const selectedSizeEl = document.getElementById('selected-size');
         const addToCartButton = document.getElementById('add-to-cart');
         const cartCount = document.getElementById('cart-count');
+        const loginModal = document.getElementById('loginModal');
+        const closeModal = document.getElementById('closeModal');
+
+        closeModal.addEventListener('click', () => {
+            loginModal.classList.add('hidden');
+        });
 
         function updateCartCount() {
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
-            let cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
-            cartCount.innerText = cartItemCount;
+            fetch('/cart', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': document.querySelector("[name='csrf-token']").content
+                }
+            })
+              .then(response => response.json())
+              .then(data => {
+                  let cartItems = data.cart_items || [];
+                  let cartItemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+                  cartCount.innerText = cartItemCount;
+              })
+              .catch(error => console.error('Error:', error));
+        }
+
+        function checkAuthentication() {
+            return fetch('/authenticated', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': document.querySelector("[name='csrf-token']").content
+                }
+            })
+              .then(response => response.json())
+              .then(data => data.authenticated)
+              .catch(error => console.error('Error:', error));
         }
 
         sizeButtons.forEach(button => {
@@ -59,39 +100,46 @@
         });
 
         addToCartButton.addEventListener('click', () => {
-            const product = {
-                id: "<%= @product.id %>",
-                name: "<%= @product.name %>",
-                price: <%= @product.price %>,
-                size: selectedSize,
-                quantity: 1
-            };
-
             if (!selectedSize) {
                 alert("Please select a size");
                 return;
             }
 
-            let cart = localStorage.getItem('cart');
-            if (cart) {
-                const cartArray = JSON.parse(cart);
-                const foundIndex = cartArray.findIndex(item => item.id === product.id && item.size === product.size);
-                if (foundIndex >= 0) {
-                    cartArray[foundIndex].quantity += 1;
+            checkAuthentication().then(authenticated => {
+                if (!authenticated) {
+                    loginModal.classList.remove('hidden');
                 } else {
-                    cartArray.push(product);
+                    const product = {
+                        product_id: "<%= @product.id %>",
+                        size: selectedSize
+                    };
+
+                    fetch('<%= add_item_cart_path %>', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-Token': document.querySelector("[name='csrf-token']").content
+                        },
+                        body: JSON.stringify(product)
+                    })
+                      .then(response => {
+                          if (response.ok) {
+                              return response.json();
+                          } else {
+                              throw new Error('Error adding product to cart');
+                          }
+                      })
+                      .then(data => {
+                          console.log('Updated Cart:', data);
+                          updateCartCount();
+                          alert("Product added to cart");
+                      })
+                      .catch(error => console.error('Error:', error));
                 }
-                localStorage.setItem('cart', JSON.stringify(cartArray));
-            } else {
-                const cartArray = [product];
-                localStorage.setItem('cart', JSON.stringify(cartArray));
-            }
-
-            updateCartCount();
-
-            alert("Product added to cart");
+            });
         });
 
+        updateCartCount();
     });
 </script>
 
