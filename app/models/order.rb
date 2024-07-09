@@ -1,3 +1,7 @@
 class Order < ApplicationRecord
-  has_many :order_products
+  belongs_to :user
+  has_many :order_products, dependent: :destroy
+
+  validates :customer_email, :total, :address, presence: true
+  validates :status, inclusion: { in: %w[pending paid failed cancelled] }
 end

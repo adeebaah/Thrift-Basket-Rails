@@ -18,7 +18,7 @@
     <p class="text-2xl mt-4">$<%= (@product.price / 100.0).to_s %></p>
     <p class="text-md py-8"><%= @product.description %></p>
     <div class="my-8">
-      <p class='uppercase text-lg'>Size</p>
+      <p class='uppercase text-lg'>Size/Color</p><br>
       <% @product.stocks.each do |stock| %>
         <% if stock.amount > 0 %>
           <button value="<%= stock.size %>" class="size-button bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50">
@@ -138,13 +138,13 @@
         sizeButtons.forEach(button => {
             button.addEventListener('click', (e) => {
                 selectedSize = e.target.value;
-                selectedSizeEl.innerText = `Selected Size: ${selectedSize}`;
+                selectedSizeEl.innerText = `Selected Size/Color: ${selectedSize}`;
             });
         });
 
         addToCartButton.addEventListener('click', () => {
             if (!selectedSize) {
-                alert("Please select a size");
+                alert("Please select a size/color");
                 return;
             }
 

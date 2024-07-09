@@ -13,12 +13,9 @@
 
   <body>
   <%= render 'shared/navbar' %>
-  <main class="container mx-auto mt-28 <%= ['sessions', 'registrations'].include?(controller_name) ? 'max-w-3xl' : 'max-w-9xl' %> px-2 sm:px-6 lg:px-8">
+  <main class="container mx-auto mt-28 <%= ['sessions', 'registrations', 'reviews'].include?(controller_name) ? 'max-w-3xl' : 'max-w-9xl' %> px-2 sm:px-6 lg:px-8">
     <%= yield %>
     </main>
-
-
-
   <%= render 'shared/footer' %>
   </body>
 </html>

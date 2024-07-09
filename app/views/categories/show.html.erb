@@ -2,7 +2,7 @@
 
 <div class="min-h-screen flex justify-center">
   <div class="flex flex-wrap flex-col mt-6">
-    <h2 class="text-lg text-gray-800">Filter</h2>
+<!--    <h2 class="text-lg text-gray-800">Filter</h2>-->
 
   </div>
   <div class="flex flex-wrap mt-6 gap-20 flex-grow justify-center items-start">
@@ -17,8 +17,10 @@
             <% else %>
               <%= image_tag "https://via.placeholder.com/250", class: "rounded" %>
             <% end %>
+            <p class="mt-6 font-bold text-gray-800">
+              <%= product.name %></p>
             <p class="mt-6 font-medium text-gray-800">
-              <%= product.name %>
+            <%= product.description %>
             </p>
           </div>
         <% end %>

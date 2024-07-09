@@ -13,9 +13,11 @@
     <% if @cart_items.any? %>
       <% @cart_items.each do |item| %>
         <div class="bg-white p-4 rounded shadow flex justify-between items-center">
+
           <div>
             <h3 class="text-lg font-semibold"><%= item.product.name %></h3>
-            <p>Price: $<%= (item.product.price / 100.0).round(2) %> - Size: <%= item.size %></p>
+            <p>Price: $<%= (item.product.price / 100.0).round(2) %> </p>
+            <p>Size / Color: <%= item.size %></p>
             <p>Quantity: <%= item.quantity %></p>
             <p>Subtotal: $<%= (item.product.price * item.quantity / 100.0).round(2) %></p>
           </div>
@@ -33,14 +35,8 @@
   <div class="mt-4 font-medium" id="total">
     Total: $<%= (@cart_items.sum { |item| item.product.price * item.quantity } / 100.0).round(2) %>
   </div>
-  <%= button_to 'Checkout', root_path, method: :post, class: "mt-6 py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded text-white" %>
-  <br>
+  <%= button_to 'Check out', root_path, method: :post, class: "mt-6 py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded text-white" %>
   <%= button_to 'Clear Cart', clear_cart_path, method: :delete, class: "py-2 px-4 bg-pink-500 hover:bg-red-600 rounded text-white" %>
 </div>
-
-
 </body>
 </html>
-
-
-

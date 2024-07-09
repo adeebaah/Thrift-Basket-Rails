@@ -59,6 +59,18 @@ class Admin::ProductsController < AdminController
     end
   end
 
+  def search
+    query = params[:query]
+    query_tokens = query.split.map { |token| "%#{token}%" }
+
+    @products = Product.where(
+      query_tokens.map { "name ILaIKE ?" }.join(" OR "),
+      *query_tokens.flat_map { |token| [token] }
+    )
+
+    render :index
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_admin_product

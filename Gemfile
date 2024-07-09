@@ -77,3 +77,5 @@ gem 'chartkick'
 gem 'highcharts-rails'
 gem 'groupdate'
 gem "stripe", "~> 12.1"
+gem 'dotenv-rails', groups: [:development]
+gem "faraday"

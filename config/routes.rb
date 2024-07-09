@@ -28,7 +28,8 @@ Rails.application.routes.draw do
 
   resources :categories, only: [:show]
 
-  resources :products, only: [:show] do
+  resources :products, only: [:show, :index] do
+
     resources :reviews, only: [:new, :create]
     end
 
@@ -39,6 +40,5 @@ Rails.application.routes.draw do
     patch 'decrease_quantity/:id', action: :decrease_quantity, as: 'decrease_quantity'
     delete 'clear', action: :clear, as: 'clear'
   end
-
-  post 'checkout', to: 'checkouts#create'
+  get 'search', to: 'products#search', as: 'search_product'
 end

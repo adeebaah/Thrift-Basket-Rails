@@ -5,6 +5,9 @@ class CreateAdminOrders < ActiveRecord::Migration[7.1]
       t.boolean :fulfilled
       t.integer :total
       t.string :address
+      t.string :transaction_id
+      t.string :status, default: 'pending'
+
 
       t.timestamps
     end

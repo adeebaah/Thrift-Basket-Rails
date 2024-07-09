@@ -1,0 +1,20 @@
+<h1 class="flex flex-wrap justify-center text-3xl font-bold mb-6">All Products</h1>
+
+<% if @products.any? %>
+  <div class="min-h-screen flex flex-wrap w-full justify-center mt-8 items-center gap-10">
+    <% @products.each do |product| %>
+      <div class="bg-white shadow-lg rounded-lg p-4">
+        <h2 class="text-gray-800 font-medium text-lg text-center mb-4"><%= product.name %></h2>
+        <%= product.images.first.present? ? image_tag(product.images.first, class: "max-w-lg") : image_tag("https://via.placeholder.com/512") %>
+        <p class="text-center mt-4">$<%= (product.price / 100.0).round(2) %></p>
+        <div class="text-center mt-4">
+          <%= link_to 'View Details', product_path(product), class: "bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p>No products found</p>
+<% end %>
+
+
