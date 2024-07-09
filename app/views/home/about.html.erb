@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us</title>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+</head>
+<body>
+<section class="flex justify-between items-center px-12 py-8">
+  <div class="flex-1 max-w-2xl">
+    <h2 class="text-5xl font-bold mb-4 text-brown-800">
+      About Us
+    </h2>
+    <p class="text-base leading-7 mb-4">
+      Welcome to our thrifting website! We are passionate about offering unique
+      and affordable fashion to our customers. Our mission is to promote sustainable
+      shopping by giving pre-loved items a new life. At our thrift store, you'll find
+      a wide range of clothing and accessories that are carefully curated for quality and style.
+    </p>
+    <p class="text-base leading-7 mb-4">
+      We believe that thrifting is not only a budget-friendly option but also an
+      eco-friendly choice. By choosing second-hand items, you contribute to reducing
+      waste and minimizing the environmental impact of fast fashion. We take pride in
+      offering a diverse selection of items that cater to different tastes and
+      preferences. Whether you're looking for vintage pieces, trendy styles, or
+      unique treasures, we've got you covered!
+    </p>
+    <p class="text-base leading-7 mb-4">
+      Our team is dedicated to providing a seamless thrifting experience. We strive
+      to ensure that every customer finds something special and enjoys the thrill of
+      discovering hidden gems. With our easy-to-use website and convenient shipping
+      options, you can explore our collection from the comfort of your home.
+    </p>
+    <p class="text-base leading-7">
+      Thank you for supporting our thrifting community. Join us in embracing
+      sustainable fashion and let's make a positive impact together!
+    </p>
+  </div>
+  <div class="ml-8">
+    <img src="<%= asset_path 'about-image.jpg' %>" alt="About Image" class="w-96 h-auto mb-8">
+  </div>
+</section>
+</body>
+</html>

@@ -3,7 +3,7 @@ class HomeController < ApplicationController
    @main_categories = Category.take(4)
   end
 
-  def all_products
-    @products = Product.all
+  def about
+
   end
 end

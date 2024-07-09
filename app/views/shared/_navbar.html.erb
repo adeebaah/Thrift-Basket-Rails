@@ -19,6 +19,9 @@
               <%= form.text_field :query, placeholder: "Search products..." %>
               <%= form.submit "Search" , class:"inline-flex items-center justify-center px-4 py-2 border border-transparent font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700  " %>
             <% end %>
+            <div class="flex space-x-10">
+              <%= link_to 'About', about_path, class: "text-gray-500 hover:underline py-2 rounded-md text-md font-medium" %>
+            </div>
 
             <% if user_signed_in? %>
               <%= button_to 'Logout', destroy_user_session_path, method: :delete, class: "text-gray-500 hover:underline py-2 rounded-md text-md font-medium" %>

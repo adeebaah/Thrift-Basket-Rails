@@ -41,4 +41,6 @@ Rails.application.routes.draw do
     delete 'clear', action: :clear, as: 'clear'
   end
   get 'search', to: 'products#search', as: 'search_product'
+
+  get 'about', to: 'home#about', as: 'about'
 end
