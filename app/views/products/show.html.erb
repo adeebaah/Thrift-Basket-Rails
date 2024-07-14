@@ -1,3 +1,4 @@
+<!-- app/views/products/show.html.erb -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +14,7 @@
     <% end %>
   </div>
 
-  <div class="min-h-screen flex flex-col items-start max-w-sm">
+  <div class="flex flex-col items-start max-w-sm">
     <h1 class="font-bold text-4xl uppercase"><%= @product.name %></h1>
     <p class="text-2xl mt-4">$<%= (@product.price / 100.0).to_s %></p>
     <p class="text-md py-8"><%= @product.description %></p>
@@ -35,12 +36,14 @@
     <button id="add-to-cart" class="inline-flex items-center justify-center px-5 py-3 border border-transparent font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
       Add To Cart
     </button>
+<!--    <div class="mt-4">-->
+<!--      <p class="text-lg font-bold">Bayesian Average Rating: <%#= @product.bayesian_average_rating %></p>-->
+<!--    </div>-->
   </div>
 </div>
 
-<!--Review -->
-
-<div class="mt-10">
+<!-- Review Section -->
+<div class="mt-8">
   <h2 class="text-2xl font-bold mb-4">Customer Reviews</h2>
   <%= link_to 'Write a review', new_product_review_path(@product), class: "bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mb-4" %><br>
   <% if @product.reviews.any? %>
@@ -77,13 +80,22 @@
   </div>
 </div>
 
-<!--Out of Stock Modal-->
-
+<!-- Out of Stock Modal -->
 <div id="outOfStockModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
   <div class="bg-white p-6 rounded-lg shadow-lg">
     <h2 class="text-xl font-bold mb-4">Out of Stock</h2>
     <p class="mb-4">This product is currently out of stock.</p>
     <button id="closeOutOfStockModal" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">Close</button>
+  </div>
+</div>
+
+<!--Chckkout successful-->
+
+<div id="checkoutModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
+  <div class="bg-white p-6 rounded-lg shadow-lg">
+    <h2 class="text-xl font-bold mb-4">Checkout Successful</h2>
+    <p class="mb-4">Your order has been confirmed</p>
+    <button id="closeCheckoutModal" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">Close</button>
   </div>
 </div>
 
@@ -98,6 +110,8 @@
         const closeModal = document.getElementById('closeModal');
         const outOfStockModal = document.getElementById('outOfStockModal');
         const closeOutOfStockModal = document.getElementById('closeOutOfStockModal');
+        const checkoutModal = document.getElementById('checkoutModal')
+        const closeCheckoutModal = document.getElementById('closeCheckoutModal')
 
         closeModal.addEventListener('click', () => {
             loginModal.classList.add('hidden');
@@ -106,6 +120,11 @@
         closeOutOfStockModal.addEventListener('click', () => {
             outOfStockModal.classList.add('hidden');
         });
+
+        closeCheckoutModal.addEventListener('click' , ()=>{
+            checkoutModal.classList.add('hidden')
+            }
+        )
 
         function updateCartCount() {
             fetch('/cart', {
@@ -170,7 +189,7 @@
                           if (data.success) {
                               console.log('Updated Cart:', data);
                               updateCartCount();
-                              alert("Product added to cart");
+                              window.location.href = "<%= product_path(@product) %>";
                           } else {
                               if (data.message === 'Stock not available') {
                                   outOfStockModal.classList.remove('hidden');

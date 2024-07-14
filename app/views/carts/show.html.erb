@@ -35,8 +35,13 @@
   <div class="mt-4 font-medium" id="total">
     Total: $<%= (@cart_items.sum { |item| item.product.price * item.quantity } / 100.0).round(2) %>
   </div>
-  <%= button_to 'Check out', root_path, method: :post, class: "mt-6 py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded text-white" %>
-  <%= button_to 'Clear Cart', clear_cart_path, method: :delete, class: "py-2 px-4 bg-pink-500 hover:bg-red-600 rounded text-white" %>
+<div class="flex justify-between mt-6">
+  <%= button_to 'Check out', checkout_cart_path, method: :post, class: "py-2 px-10 bg-blue-500 hover:bg-blue-600 rounded text-white" %>
+  <%= button_to 'Clear Cart', clear_cart_path, method: :delete, class: "py-2 px-10 bg-pink-500 hover:bg-red-600 rounded text-white" %>
+  <%= link_to "Browse All", products_path, class: "py-2 px-10 bg-gray-500 hover:bg-gray-600 text-white font-bold rounded" %>
+</div>
 </div>
 </body>
 </html>
+
+

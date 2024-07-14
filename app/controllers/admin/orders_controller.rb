@@ -3,12 +3,13 @@ class Admin::OrdersController < AdminController
 
   # GET /admin/orders or /admin/orders.json
   def index
-   @not_fulfilled_orders = Order.where(fulfilled: false).order(created_at: :asc)
-    @fulfilled_orders = Order.where(fulfilled: true).order(created_at: :asc)
+    @not_fulfilled_orders = Order.where(status: 'Pending').order(created_at: :asc)
+    @fulfilled_orders = Order.where(status: 'Fulfilled').order(created_at: :asc)
   end
 
   # GET /admin/orders/1 or /admin/orders/1.json
   def show
+    @order_products = @admin_order.order_products.includes(:product)
   end
 
   # GET /admin/orders/new
@@ -59,13 +60,14 @@ class Admin::OrdersController < AdminController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_admin_order
-      @admin_order = Order.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def admin_order_params
-      params.require(:order).permit(:customer_email, :fulfilled, :total, :address)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_admin_order
+    @admin_order = Order.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def admin_order_params
+    params.require(:order).permit(:customer_email, :total, :address, :status, :user_id)
+  end
 end

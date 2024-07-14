@@ -1,0 +1,7 @@
+<%= form_with url: checkout_cart_path, method: :post, local: true do %>
+  <div class="mt-4">
+    <%= label_tag :address, 'Address' %>
+    <%= text_field_tag :address, nil, required: true, class: 'block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full' %>
+  </div>
+  <%= submit_tag 'Proceed to out', class: "mt-6 py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded text-white" %>
+<%end %>

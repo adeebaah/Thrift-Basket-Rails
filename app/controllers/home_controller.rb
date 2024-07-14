@@ -6,4 +6,8 @@ class HomeController < ApplicationController
   def about
 
   end
+
+  def wishlist
+
+  end
 end

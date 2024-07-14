@@ -39,8 +39,23 @@ Rails.application.routes.draw do
     patch 'increase_quantity/:id', action: :increase_quantity, as: 'increase_quantity'
     patch 'decrease_quantity/:id', action: :decrease_quantity, as: 'decrease_quantity'
     delete 'clear', action: :clear, as: 'clear'
+    post 'checkout', on: :collection
+    get 'details', on: :collection
+    post 'confirm_checkout', on: :collection
   end
   get 'search', to: 'products#search', as: 'search_product'
 
   get 'about', to: 'home#about', as: 'about'
+
+
+  resource :wishlist, only: [:show] do
+    post 'add_item', on: :collection
+    delete 'remove_item/:id', action: :remove_item, as: 'remove_item'
+
+  end
+
+  get 'wishlist_guest', to: 'wishlists#guest', as: 'wishlist_guest'
+
+
+
 end

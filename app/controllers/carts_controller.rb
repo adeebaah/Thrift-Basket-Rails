@@ -1,5 +1,5 @@
 class CartsController < ApplicationController
-  before_action :authenticate_user!, only: [:show, :add_item, :remove_item, :increase_quantity, :decrease_quantity]
+  before_action :authenticate_user!, only: [:show, :add_item, :remove_item, :increase_quantity, :decrease_quantity, :checkout]
 
   def show
     @cart = current_user.cart || current_user.create_cart
@@ -70,6 +70,40 @@ class CartsController < ApplicationController
   end
 
   def checkout
-    # Add your checkout logic here
+    redirect_to details_cart_path
+  end
+
+  def details
+    @cart_items = current_user.cart.cart_items.includes(:product).order(created_at: :desc)
+  end
+
+
+  def confirm_checkout
+  @order = current_user.orders.create(
+    customer_email: current_user.email,
+    total: calculate_total_price,
+    address: params[:address],
+    phone: params[:phone],
+    status: 'Pending'
+  )
+
+  current_user.cart.cart_items.includes(:product).each do |item|
+    @order.order_products.create(
+      product: item.product,
+      size: item.size,
+      quantity: item.quantity
+    )
+  end
+
+  current_user.cart.cart_items.destroy_all
+  flash[:notice] = 'Order has been confirmed!'
+  redirect_to root_path
+
+end
+
+  private
+
+  def calculate_total_price
+    current_user.cart.cart_items.sum { |item| item.product.price * item.quantity }
   end
 end

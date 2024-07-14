@@ -34,9 +34,9 @@
     </div>
     <div class="max-w-sm rounded overflow-hidden shadow-xl bg-gradient-to-r from-gray-400 to-gray-300">
       <div class="px-6 py-4">
-        <div class="font-bold text-xl mb-2 text-white">Items/Sale</div>
+        <div class="font-bold text-xl mb-2 text-white">Products Sold</div>
         <p class="text-white text-base">
-          <%= @quick_stats[:per_sale].to_i %>
+          <%= @quick_stats[:total_items_sold].to_i %>
         </p>
       </div>
     </div>
@@ -56,11 +56,10 @@
               datasets: [{
                   label: 'Revenue',
                   data: <%= @revenue_by_day.map { |_, revenue| revenue / 100.0 }.to_json.html_safe %>,
-                  backgroundColor: 'rgba(75, 192, 192, 0.2)', // Light blue area fill
-                  borderColor: 'rgba(75, 192, 192, 1)', // Blue line
-                  borderWidth: 1,
-                  fill: true, // Fill the area under the line
-                  tension: 0.4 // Smoother curve
+                  backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                  borderColor: 'rgba(75, 192, 192, 1)',
+                  fill: true,
+                  tension: 0.4
               }]
           };
 

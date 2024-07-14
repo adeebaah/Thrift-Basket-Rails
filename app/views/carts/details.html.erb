@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Checkout Details</title>
+  <meta name="csrf-token" content="<%= form_authenticity_token %>">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="min-h-screen p-6 bg-gray-100">
+  <h1 class="text-3xl font-bold mb-6">Checkout Details</h1>
+  <%= form_with url: confirm_checkout_cart_path, method: :post, local: true do %>
+    <div class="mt-4">
+      <%= label_tag :address, 'Address' %>
+      <%= text_field_tag :address, nil, required: true, class: 'block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full' %>
+    </div>
+    <div class="mt-4">
+      <%= label_tag :phone, 'Phone Number' %>
+      <%= text_field_tag :phone, nil, required: true, class: 'block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full' %>
+    </div>
+    <%= submit_tag 'Confirm Checkout', class: "mt-6 py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded text-white" %>
+  <% end %>
+</div>
+</body>
+</html>
