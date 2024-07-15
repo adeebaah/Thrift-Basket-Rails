@@ -1,6 +1,11 @@
 class CartsController < ApplicationController
   before_action :authenticate_user!, only: [:show, :add_item, :remove_item, :increase_quantity, :decrease_quantity, :checkout]
 
+
+  def checkout_details
+    @user = current_user
+  end
+
   def show
     @cart = current_user.cart || current_user.create_cart
     @cart_items = @cart.cart_items.includes(:product).order("created_at DESC")
@@ -74,6 +79,7 @@ class CartsController < ApplicationController
   end
 
   def details
+    @user = current_user
     @cart_items = current_user.cart.cart_items.includes(:product).order(created_at: :desc)
   end
 

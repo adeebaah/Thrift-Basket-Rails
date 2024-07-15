@@ -44,8 +44,9 @@
 
 <!-- Review Section -->
 <div class="mt-8">
-  <h2 class="text-2xl font-bold mb-4">Customer Reviews</h2>
-  <%= link_to 'Write a review', new_product_review_path(@product), class: "bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mb-4" %><br>
+  <h2 class="flex justify-center text-2xl font-bold mb-4">Customer Reviews</h2>
+  <%= link_to 'Write a review', new_product_review_path(@product),  class: "flex items-center justify-center px-5 py-3 border border-transparent font-medium bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-2 rounded w-auto" %>
+</div>
   <% if @product.reviews.any? %>
     <% @product.reviews.each do |review| %>
       <br>
@@ -64,7 +65,7 @@
       </div>
     <% end %>
   <% else %>
-    <p>No reviews yet.</p>
+    <p class="flex justify-center">No reviews yet.</p>
   <% end %>
 </div>
 

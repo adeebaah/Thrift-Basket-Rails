@@ -1,11 +1,14 @@
 Rails.application.routes.draw do
-
+  get 'profiles/show'
   get 'authenticated', to: 'sessions#authenticated'
 
-  devise_for :users, path: '', path_names: {
+  devise_for :users, controllers: {
+    registrations: 'registrations'
+  }, path: '', path_names: {
     sign_in: 'login',
     sign_up: 'signup',
-    sign_out: 'logout'
+    sign_out: 'logout',
+
   }
 
   namespace :admin do
@@ -29,9 +32,8 @@ Rails.application.routes.draw do
   resources :categories, only: [:show]
 
   resources :products, only: [:show, :index] do
-
     resources :reviews, only: [:new, :create]
-    end
+  end
 
   resource :cart, only: [:show] do
     post 'add_item', on: :collection
@@ -47,15 +49,16 @@ Rails.application.routes.draw do
 
   get 'about', to: 'home#about', as: 'about'
 
-
   resource :wishlist, only: [:show] do
     post 'add_item', on: :collection
     delete 'remove_item/:id', action: :remove_item, as: 'remove_item'
-
   end
 
   get 'wishlist_guest', to: 'wishlists#guest', as: 'wishlist_guest'
 
-
+  get 'profile', to: 'profiles#show', as: 'profile'
+  post 'profile', to: 'profiles#update', as: 'edit_profile'
+  get 'users/:id/orders', to: 'orders#user_orders', as: 'user_orders'
+  post 'reorder_items', to: 'orders#reorder_items', as: 'reorder_items'
 
 end
