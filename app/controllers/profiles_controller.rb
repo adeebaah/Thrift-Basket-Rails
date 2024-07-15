@@ -5,22 +5,7 @@ class ProfilesController < ApplicationController
     @user = current_user
     @age = calculate_age(@user.dob)
   end
-  #
-  # def edit
-  #   @user = current_user
-  #   # redirect_to profile_path and return unless @user
-  # end
-  #
-  # def update
-  #   @user = current_user
-  #   if @user.update(user_params)
-  #     redirect_to profile_path, notice: 'Profile was successfully updated.'
-  #   else
-  #     render :edit
-  #   end
-  # end
-  #
-  # private
+
 
   def user_params
     params.require(:user).permit(:name, :email, :phone, :dob, :address, :password, :password_confirmation)

@@ -37,5 +37,10 @@ class AdminController < ApplicationController
     @orders_by_month = Order.where('created_at > ?', Time.now - 1.year).order(:created_at)
     @orders_by_month = @orders_by_month.group_by { |order| order.created_at.beginning_of_month }
     @revenue_by_month = @orders_by_month.map { |month, orders| [month.strftime("%B"), orders.sum(&:total)] }
+
+    months_of_year = Date::MONTHNAMES[1..12]
+    data_hash = @revenue_by_month.to_h
+    ordered_months_with_current_last = months_of_year.map { |month| [month, data_hash.fetch(month, 0)] }
+    @revenue_by_month = ordered_months_with_current_last
   end
 end

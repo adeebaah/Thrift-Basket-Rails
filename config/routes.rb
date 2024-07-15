@@ -8,7 +8,6 @@ Rails.application.routes.draw do
     sign_in: 'login',
     sign_up: 'signup',
     sign_out: 'logout',
-
   }
 
   namespace :admin do
@@ -60,5 +59,7 @@ Rails.application.routes.draw do
   post 'profile', to: 'profiles#update', as: 'edit_profile'
   get 'users/:id/orders', to: 'orders#user_orders', as: 'user_orders'
   post 'reorder_items', to: 'orders#reorder_items', as: 'reorder_items'
+
+  resources :slides, only: [:index]
 
 end

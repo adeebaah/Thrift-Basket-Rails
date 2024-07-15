@@ -1,5 +1,5 @@
-<!-- app/views/layouts/application.html.erb -->
-<nav class="fixed w-full top-0 bg-gray-100 z-10 py-4">
+
+<nav class="fixed w-full top-0 bg-gray-200 z-10 py-4">
   <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
     <div class="relative flex items-center justify-between h-16">
       <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-between">
@@ -14,8 +14,8 @@
           <% end %>
         </div>
 
-        <div class="hidden sm:flex sm:ml-6 items-center justify-center">
-          <div class="flex space-x-10">
+        <div class="hidden sm:flex sm:ml-6 items-center justify-center rounded">
+          <div class="flex space-x-10 rounded">
             <%= form_with url: search_product_path, method: :get, local: true do |form| %>
               <%= form.text_field :query, placeholder: "Search products..." %>
               <%= form.submit "Search" , class:"inline-flex items-center justify-center px-4 py-2 border border-transparent font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700  " %>

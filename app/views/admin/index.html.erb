@@ -47,9 +47,11 @@
   <br/>
 
   <h2 class="text-2xl text-gray-800 w-full pt-8 font-medium mb-4">Revenue</h2>
-  <canvas id="dailyChart" width="300" height="150"></canvas>
-  <canvas id="weeklyChart" width="300" height="150"></canvas>
-  <canvas id="monthlyChart" width="300" height="150"></canvas>
+  <div class="flex flex-wrap justify-center gap-8">
+    <canvas id="dailyChart" width="300" height="150"></canvas>
+    <canvas id="weeklyChart" width="300" height="150"></canvas>
+    <canvas id="monthlyChart" width="300" height="150"></canvas>
+  </div>
 
   <script>
       document.addEventListener("DOMContentLoaded", function() {
@@ -77,9 +79,33 @@
               }
           };
 
+          const weeklyCtx = document.getElementById('weeklyChart').getContext('2d');
+          const weeklyData = {
+              labels: <%= @revenue_by_week.map { |week, _| week }.to_json.html_safe %>,
+              datasets: [{
+                  label: 'Weekly Revenue',
+                  data: <%= @revenue_by_week.map { |_, revenue| revenue / 100.0 }.to_json.html_safe %>,
+                  backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                  borderColor: 'rgba(255, 206, 86, 1)',
+                  borderWidth: 1
+              }]
+          };
+
+          const weeklyConfig = {
+              type: 'bar',
+              data: weeklyData,
+              options: {
+                  scales: {
+                      y: {
+                          beginAtZero: true
+                      }
+                  }
+              }
+          };
+
           const monthlyCtx = document.getElementById('monthlyChart').getContext('2d');
           const monthlyData = {
-              labels: <%= @revenue_by_month.map { |month, _| month }.to_json.html_safe %>,
+              labels: <%= Date::MONTHNAMES[1..12].to_json.html_safe %>,
               datasets: [{
                   label: 'Monthly Revenue',
                   data: <%= @revenue_by_month.map { |_, revenue| revenue / 100.0 }.to_json.html_safe %>,

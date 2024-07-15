@@ -3,7 +3,7 @@ class Admin::ProductsController < AdminController
 
   # GET /admin/admin or /admin/admin.json
   def index
-    @admin_products = Product.all
+    @admin_products = Product.page(params[:page])
   end
 
   # GET /admin/admin/1 or /admin/admin/1.json

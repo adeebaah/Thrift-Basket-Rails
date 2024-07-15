@@ -1,27 +1,26 @@
-<div class="bg-gray-800 text-white text-center py-20">
-  <h1 class="text-5xl font-bold mb-4">
-Welcome to Thrift Basket
-  </h1>
-  <p class="text-xl mb-8">Start shopping</p>
-  <%= link_to "Browse All", products_path,  class:"bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"%>
+<body class="bg-gray-100">
+<!-- Welcome Section -->
+<div class="w-full text-white p-8 flex items-center transition-all duration-300 rounded-lg cursor-pointer filter justify-center" style="height: 60vh; background-image: url(<%= asset_path('h1.jpg') %>); background-repeat: no-repeat; background-position: center; background-color: #d1d5db; background-size: cover; background-blend-mode: multiply;">
+  <div class="text-center  p-5 rounded">
+    <h1 class="text-5xl mt-5 font-bold">Welcome to Thrift Basket</h1>
+    <p class="text-xl mb-8">Start shopping</p>
+    <%= link_to "Browse Collection", products_path, class: "bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded" %>
+  </div>
 </div>
 
-
-<div class="flex flex-wrap  w-full justify-center mt-8 items-center gap-10">
-  <% @main_categories.each do |category| %>
-    <%= link_to category_path(category) do %>
-      <div class="flex flex-col mb-4">
-        <h2 class="text-gray-800 w-full font-medium text-lg text-center mb-6"><%= category.name %></h2>
-        <%= category.image.present? ? image_tag(category.image, class: "max-w-lg") : image_tag("https://via.placeholder.com/512") %>
-      </div>
+<div class="container mx-auto mt-6">
+  <h2 class="flex justify-center text-2xl font-bold mb-6">Top Categories</h2>
+  <div class="flex flex-wrap gap-4 justify-center">
+    <% @main_categories.each do |category| %>
+      <%= link_to category_path(category), class: "flex flex-col items-center gap-2 p-6 bg-gray-300 hover:bg-gray-200 rounded-md w-48" do %>
+        <%= category.image.present? ? image_tag(category.image, class: "w-24 h-24 object-cover rounded") : image_tag("https://via.placeholder.com/96", class: "w-24 h-24 object-cover rounded") %>
+        <span class="text-gray-800 text-center"><%= category.name %></span>
+      <% end %>
     <% end %>
-  <% end %>
+  </div>
 </div>
 
-
-
-<div>
-  <%= render 'shared/wrapper' %>
-</div>
-
-
+      <div>
+        <%= render 'shared/wrapper' %>
+      </div>
+</body>

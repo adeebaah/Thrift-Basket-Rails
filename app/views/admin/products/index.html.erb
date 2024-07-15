@@ -17,55 +17,32 @@
           <table class="min-w-full overflow-x-scroll">
             <thead class="bg-white border-b">
             <tr>
-              <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-
-              </th>
-              <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                Name
-              </th>
-
-              <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                Description
-              </th>
-              <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                Price
-              </th>
-
-
+              <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left"></th>
+              <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">Name</th>
+              <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">Description</th>
+              <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">Price</th>
             </tr>
             </thead>
             <tbody>
             <% @admin_products.each do |c| %>
               <tr class="bg-gray-50 border-b">
-
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 underline">
-                  <%=  c.images.any?  ? image_tag(c.images.first, :size=> "50x50") : image_tag("https://via.placeholder.com/50") %>
+                  <%= c.images.any? ? image_tag(c.images.first, size: "50x50") : image_tag("https://via.placeholder.com/50") %>
                 </td>
-
-
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 underline">
                   <%= link_to c.name, edit_admin_product_path(c) %>
                 </td>
-
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 ">
-                  <%= c.description %>
-                </td>
-
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 ">
-                  <%= c.price %>
-                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800"><%= c.description %></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800"><%= c.price %></td>
               </tr>
             <% end %>
-
             </tbody>
           </table>
-
+          <div class="mt-4">
+            <%= paginate @admin_products %>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-
-
-
