@@ -8,7 +8,7 @@
         <%= product.images.first.present? ? image_tag(product.images.first, class: "max-w-lg") : image_tag("https://via.placeholder.com/512") %>
         <p class="text-center mt-4">$<%= (product.price / 100.0).round(2) %></p>
         <div class="text-center mt-4 flex justify-center items-center space-x-2">
-          <%= link_to 'View Details', product_path(product), class: "bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded" %>
+          <%= link_to 'View Details', product_path(product), class: "bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded", data: {turbo: false} %>
 
             <% if product.stocks.sum(:amount) > 0 %>
               <%= button_to add_item_wishlist_path(product_id: product.id), method: :post, class: "bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded" do %>

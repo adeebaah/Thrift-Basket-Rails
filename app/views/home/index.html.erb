@@ -1,7 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout Page</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
 <body class="bg-gray-100">
+
+<!-- Flash Messages -->
+<% if flash[:notice] %>
+  <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+    <span class="block sm:inline"><%= flash[:notice] %></span>
+  </div>
+<% end %>
+
+<% if flash[:alert] %>
+  <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+    <span class="block sm:inline"><%= flash[:alert] %></span>
+  </div>
+<% end %>
+<br>
 <!-- Welcome Section -->
 <div class="w-full text-white p-8 flex items-center transition-all duration-300 rounded-lg cursor-pointer filter justify-center" style="height: 60vh; background-image: url(<%= asset_path('h1.jpg') %>); background-repeat: no-repeat; background-position: center; background-color: #d1d5db; background-size: cover; background-blend-mode: multiply;">
-  <div class="text-center  p-5 rounded">
+  <div class="text-center p-5 rounded">
     <h1 class="text-5xl mt-5 font-bold">Welcome to Thrift Basket</h1>
     <p class="text-xl mb-8">Start shopping</p>
     <%= link_to "Browse Collection", products_path, class: "bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded" %>
@@ -20,7 +42,8 @@
   </div>
 </div>
 
-      <div>
-        <%= render 'shared/wrapper' %>
-      </div>
+<div>
+  <%= render 'shared/wrapper' %>
+</div>
 </body>
+</html>

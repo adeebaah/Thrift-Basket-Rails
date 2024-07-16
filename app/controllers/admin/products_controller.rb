@@ -48,16 +48,37 @@ class Admin::ProductsController < AdminController
       render :edit, status: :unprocessable_entity
     end
   end
-
+  #
   # DELETE /admin/admin/1 or /admin/admin/1.json
   def destroy
-    @admin_product.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to admin_products_url, notice: "Product was successfully destroyed." }
-      format.json { head :no_content }
+    if @admin_product.destroy
+      respond_to do |format|
+        format.html { redirect_to admin_products_url, notice: 'Product was successfully destroyed.' }
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to admin_products_url, alert: 'Failed to destroy the product.' }
+        format.json { render json: @admin_product.errors, status: :unprocessable_entity }
+      end
     end
   end
+
+
+  # def destroy
+  #   if @admin_product.destroy
+  #     respond_to do |format|
+  #       format.html { redirect_to admin_products_url, notice: 'Product was successfully destroyed.' }
+  #       format.json { head :no_content }
+  #     end
+  #   else
+  #     respond_to do |format|
+  #       format.html { redirect_to admin_products_url, alert: 'Failed to destroy the product.' }
+  #       format.json { render json: @admin_product.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
+
 
   def search
     query = params[:query]
@@ -72,10 +93,14 @@ class Admin::ProductsController < AdminController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_admin_product
       @admin_product = Product.find(params[:id])
     end
+
+  private
+  def set_product
+    @product = Product.find(params[:id])
+  end
 
     # Only allow a list of trusted parameters through.
     def admin_product_params

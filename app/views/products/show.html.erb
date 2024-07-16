@@ -7,6 +7,19 @@
 </head>
 <body>
 <h1>Product show page</h1>
+<!-- Flash Messages -->
+<% if flash[:notice] %>
+  <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+    <span class="block sm:inline"><%= flash[:notice] %></span>
+  </div>
+<% end %>
+
+<% if flash[:alert] %>
+  <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+    <span class="block sm:inline"><%= flash[:alert] %></span>
+  </div>
+<% end %>
+<br>
 <div class="flex justify-center gap-20 py-10">
   <div class="flex flex-wrap max-w-lg">
     <% @product.images.each do |image| %>
@@ -36,9 +49,6 @@
     <button id="add-to-cart" class="inline-flex items-center justify-center px-5 py-3 border border-transparent font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
       Add To Cart
     </button>
-<!--    <div class="mt-4">-->
-<!--      <p class="text-lg font-bold">Bayesian Average Rating: <%#= @product.bayesian_average_rating %></p>-->
-<!--    </div>-->
   </div>
 </div>
 
@@ -123,8 +133,8 @@
         });
 
         closeCheckoutModal.addEventListener('click' , ()=>{
-            checkoutModal.classList.add('hidden')
-            }
+              checkoutModal.classList.add('hidden')
+          }
         )
 
         function updateCartCount() {
@@ -190,6 +200,7 @@
                           if (data.success) {
                               console.log('Updated Cart:', data);
                               updateCartCount();
+                              alert('Product successfully added to cart');
                               window.location.href = "<%= product_path(@product) %>";
                           } else {
                               if (data.message === 'Stock not available') {

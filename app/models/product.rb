@@ -11,8 +11,7 @@ class Product < ApplicationRecord
   has_many :cart_items
   has_many :reviews, dependent: :destroy
   has_many :wishlists, dependent: :destroy
-
-
+  has_many :wishlist_items, dependent: :destroy
 
   # # Rating
   # def bayesian_average_rating

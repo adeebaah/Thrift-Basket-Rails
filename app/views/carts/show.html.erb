@@ -8,6 +8,19 @@
 <body>
 <div class="min-h-screen p-6 bg-gray-100">
   <h1 class="text-3xl font-bold mb-6">Cart Page</h1>
+  <% if flash[:notice] %>
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+      <span class="block sm:inline"><%= flash[:notice] %></span>
+    </div>
+  <% end %>
+
+  <% if flash[:alert] %>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+      <span class="block sm:inline"><%= flash[:alert] %></span>
+    </div>
+  <% end %>
+  <br>
+
   <div id="errorContainer"></div>
   <div id="cart-items" class="space-y-4">
     <% if @cart_items.any? %>

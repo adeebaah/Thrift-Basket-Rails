@@ -1,49 +1,82 @@
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= devise_error_messages! %>
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+  <div class="max-w-md w-full space-y-8">
+    <div>
+      <h2 class="mt-6 text-center text-3xl font-bold text-gray-900">Sign up</h2>
+    </div>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "mt-8 space-y-6" }) do |f| %>
+      <div class="rounded-md shadow-sm space-y-6">
+        <div class="mb-4">
+          <%= f.label :name, class: "sr-only" %>
+          <%= f.text_field :name, autofocus: true, class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm", placeholder: "Name" %>
+        </div>
 
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name, autofocus: true %>
+        <div class="mb-4">
+          <%= f.label :phone, class: "sr-only" %>
+          <%= f.text_field :phone, class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm", placeholder: "Phone" %>
+        </div>
+
+        <div class="mb-4">
+          <%= f.label :address, class: "sr-only" %>
+          <%= f.text_field :address, class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm", placeholder: "Address" %>
+        </div>
+
+        <div class="mb-4">
+          <%= f.label :dob, class: "sr-only" %>
+          <div class="flex space-x-2">
+            <%= f.select :dob, (1..31).to_a, { prompt: 'Day' }, { class: 'appearance-none rounded-none block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' } %>
+            <%= f.select :dob, Date::MONTHNAMES.compact.each_with_index.map { |m, i| [m, i + 1] }, { prompt: 'Month' }, { class: 'appearance-none rounded-none block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' } %>
+            <%= f.select :dob, (1900..Time.now.year).to_a.reverse, { prompt: 'Year' }, { class: 'appearance-none rounded-none block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' } %>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <%= f.label :email, class: "sr-only" %>
+          <%= f.email_field :email, autocomplete: "email", class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm", placeholder: "Email" %>
+        </div>
+
+        <div class="mb-4 relative">
+          <%= f.label :password, class: "sr-only" %>
+          <%# if @minimum_password_length %>
+<!--            <em>(<%#= @minimum_password_length %> characters minimum)</em>-->
+          <%# end %>
+          <%= f.password_field :password, autocomplete: "off", class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm", placeholder: "Password", id: "password" %>
+          <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5" onclick="togglePasswordVisibility('password')">
+            <i class="far fa-eye text-gray-500" id="togglePasswordIcon"></i>
+          </button>
+        </div>
+
+        <div class="mb-4 relative">
+          <%= f.label :password_confirmation, class: "sr-only" %>
+          <%= f.password_field :password_confirmation, autocomplete: "off", class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm", placeholder: "Password confirmation", id: "password_confirmation" %>
+          <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5" onclick="togglePasswordVisibility('password_confirmation')">
+            <i class="far fa-eye text-gray-500" id="togglePasswordConfirmIcon"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <%= f.submit "Sign up", class: "group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+      </div>
+      <div class="mt-2 text-center">
+        <%= render "devise/shared/links" %>
+      </div>
+    <% end %>
   </div>
+</div>
 
-
-
-  <div class="field">
-    <%= f.label :phone %><br />
-    <%= f.text_field :phone %>
-  </div>
-
-  <div class="field">
-    <%= f.label :address %><br />
-    <%= f.text_field :address, autofocus: true %>
-  </div>
-
-  <div class="field">
-    <%= f.label :dob %><br />
-    <%= f.date_select :dob %>
-  </div>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "off" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+<script>
+    function togglePasswordVisibility(id) {
+        const passwordField = document.getElementById(id);
+        const toggleIcon = id === 'password' ? document.getElementById('togglePasswordIcon') : document.getElementById('togglePasswordConfirmIcon');
+        const passwordFieldType = passwordField.getAttribute('type');
+        if (passwordFieldType === 'password') {
+            passwordField.setAttribute('type', 'text');
+            toggleIcon.classList.remove('fa-eye');
+            toggleIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordField.setAttribute('type', 'password');
+            toggleIcon.classList.remove('fa-eye-slash');
+            toggleIcon.classList.add('fa-eye');
+        }
+    }
+</script>

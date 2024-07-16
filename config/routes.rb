@@ -56,7 +56,9 @@ Rails.application.routes.draw do
   get 'wishlist_guest', to: 'wishlists#guest', as: 'wishlist_guest'
 
   get 'profile', to: 'profiles#show', as: 'profile'
-  post 'profile', to: 'profiles#update', as: 'edit_profile'
+  get 'profile/edit', to: 'profiles#edit', as: 'edit_profile'
+  patch 'profile', to: 'profiles#update'
+
   get 'users/:id/orders', to: 'orders#user_orders', as: 'user_orders'
   post 'reorder_items', to: 'orders#reorder_items', as: 'reorder_items'
 

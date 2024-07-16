@@ -12,6 +12,7 @@ class WishlistsController < ApplicationController
     @wishlist = current_user.wishlist || current_user.initialize_wishlist
     product = Product.find(params[:product_id])
     @wishlist.wishlist_items.create(product: product)
+    flash[:notice] = "Item added to your wishlist"
     redirect_to wishlist_path
   end
 
@@ -19,6 +20,7 @@ class WishlistsController < ApplicationController
     @wishlist = current_user.wishlist
     wishlist_item = @wishlist.wishlist_items.find(params[:id])
     wishlist_item.destroy
+    flash[:notice] = "Item has been removed from your wishlist"
     redirect_to wishlist_path
   end
 
