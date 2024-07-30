@@ -3,5 +3,20 @@
     <%= label_tag :address, 'Address' %>
     <%= text_field_tag :address, nil, required: true, class: 'block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full' %>
   </div>
-  <%= submit_tag 'Proceed to out', class: "mt-6 py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded text-white" %>
-<%end %>
+
+  <div class="mt-4">
+    <%= label_tag :delivery_mode, 'Mode of Delivery' %>
+    <div class="mt-2">
+      <label class="inline-flex items-center">
+        <%= radio_button_tag :delivery_mode, 'COD', true, class: 'form-radio' %>
+        <span class="ml-2">Cash on Delivery (COD)</span>
+      </label>
+      <label class="inline-flex items-center ml-6">
+        <%= radio_button_tag :delivery_mode, 'Online Payment', false, class: 'form-radio' %>
+        <span class="ml-2">Online Payment</span>
+      </label>
+    </div>
+  </div>
+
+  <%= submit_tag 'Proceed to Checkout', class: "mt-6 py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded text-white" %>
+<% end %>

@@ -28,8 +28,15 @@ class User < ApplicationRecord
   private
 
   def password_complexity
-    return if password.blank? || password =~ /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/
+    return if password.blank?
 
-    errors.add :password, 'Length should be at least 8 characters long and include: 1 uppercase, 1 lowercase and 1 digit'
+    unless password =~ /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])/
+      errors.add :password, 'must include at least one uppercase letter, one lowercase letter, one digit, and one special character (!@#$%^&*).'
+    end
+
+    unless password.length >= 8
+      errors.add :password, 'must be at least 8 characters long.'
+    end
   end
+
 end

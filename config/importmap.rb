@@ -11,3 +11,4 @@ pin "chartkick", to: "chartkick.js"
 pin "Chart.bundle", to: "Chart.bundle.js"
 
 pin "admin/products"
+pin "alerts", to: "alerts.js"

@@ -16,10 +16,10 @@
           <%= f.label :name, class: 'block text-sm font-medium text-gray-700' %>
           <%= f.text_field :name, class: 'block w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
         </div>
-        <div>
-          <%= f.label :email, class: 'block text-sm font-medium text-gray-700' %>
-          <%= f.email_field :email, class: 'block w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
-        </div>
+<!--        <div>-->
+          <%#= f.label :email, class: 'block text-sm font-medium text-gray-700' %>
+          <%#= f.email_field :email, class: 'block w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
+<!--        </div>-->
         <div>
           <%= f.label :phone, class: 'block text-sm font-medium text-gray-700' %>
           <%= f.telephone_field :phone, class: 'block w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
@@ -32,27 +32,8 @@
           <%= f.label :address, class: 'block text-sm font-medium text-gray-700' %>
           <%= f.text_field :address, class: 'block w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
         </div>
-        <div class="mb-4 relative">
-          <%= f.label :password, class: "sr-only" %>
-          <%# if @minimum_password_length %>
-          <!--            <em>(<%#= @minimum_password_length %> characters minimum)</em>-->
-          <%# end %>
-          <%= f.password_field :password, autocomplete: "off", class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm", placeholder: "Password", id: "password" %>
-          <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5" onclick="togglePasswordVisibility('password')">
-            <i class="far fa-eye text-gray-500" id="togglePasswordIcon"></i>
-          </button>
-        </div>
 
-        <div class="mb-4 relative">
-          <%= f.label :password_confirmation, class: "sr-only" %>
-          <%= f.password_field :password_confirmation, autocomplete: "off", class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm", placeholder: "Password confirmation", id: "password_confirmation" %>
-          <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5" onclick="togglePasswordVisibility('password_confirmation')">
-            <i class="far fa-eye text-gray-500" id="togglePasswordConfirmIcon"></i>
-          </button>
-        </div>
       </div>
-
-
       <div class="mt-6">
           <%= f.submit 'Update Profile', class: 'w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500' %>
         </div>

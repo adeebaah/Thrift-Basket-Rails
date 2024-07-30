@@ -1,7 +1,6 @@
 class CartsController < ApplicationController
   before_action :authenticate_user!, only: [:show, :add_item, :remove_item, :increase_quantity, :decrease_quantity, :checkout]
 
-
   def checkout_details
     @user = current_user
   end
@@ -20,7 +19,7 @@ class CartsController < ApplicationController
     @product = Product.find(params[:product_id])
     @cart_item = @cart.cart_items.find_by(product_id: @product.id, size: params[:size])
 
-    if Stock.available?(@product.id, params[:size]) # Check if the stock is available
+    if Stock.available?(@product.id, params[:size])
       if @cart_item
         @cart_item.quantity += 1
       else
@@ -28,7 +27,7 @@ class CartsController < ApplicationController
       end
 
       if @cart_item.save
-        Stock.reduce!(@product.id, params[:size], 1) # Reduce the stock
+        Stock.reduce!(@product.id, params[:size], 1)
         render json: { success: true, cart_items: @cart.cart_items.as_json(include: :product) }
       else
         render json: { success: false, message: 'Error adding item to cart' }, status: :unprocessable_entity
@@ -83,29 +82,36 @@ class CartsController < ApplicationController
     @cart_items = current_user.cart.cart_items.includes(:product).order(created_at: :desc)
   end
 
-
   def confirm_checkout
-  @order = current_user.orders.create(
-    customer_email: current_user.email,
-    total: calculate_total_price,
-    address: params[:address],
-    phone: params[:phone],
-    status: 'Pending'
-  )
-
-  current_user.cart.cart_items.includes(:product).each do |item|
-    @order.order_products.create(
-      product: item.product,
-      size: item.size,
-      quantity: item.quantity
+    @order = current_user.orders.create(
+      customer_email: current_user.email,
+      total: calculate_total_price,
+      address: params[:address],
+      phone: params[:phone],
+      status: 'Pending',
+      delivery_mode: params[:delivery_mode] # Ensure delivery_mode is included here
     )
+
+    current_user.cart.cart_items.includes(:product).each do |item|
+      @order.order_products.create(
+        product: item.product,
+        size: item.size,
+        quantity: item.quantity,
+
+      )
+    end
+
+    current_user.cart.cart_items.destroy_all
+    flash[:notice] = 'Order has been confirmed!'
+    redirect_to root_path
   end
 
-  current_user.cart.cart_items.destroy_all
-  flash[:notice] = 'Order has been confirmed!'
-  redirect_to root_path
+  def cart_data
+    @cart = current_user.cart || current_user.create_cart
+    @cart_items = @cart.cart_items.includes(:product).order("created_at DESC")
+    render json: { cart_items: @cart_items.as_json(include: :product) }
+  end
 
-end
 
   private
 

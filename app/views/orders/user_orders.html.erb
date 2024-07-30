@@ -9,7 +9,7 @@
           <% @orders.each do |order| %>
             <div class="border rounded-lg p-4 bg-gray-50 shadow-sm">
               <p><strong>Order ID:</strong> <%= order.id %></p>
-              <p><strong>Total:</strong> $<%= (order.total / 100.0).round(2) %></p>
+              <p><strong>Total:</strong> BDT <%= order.total %></p>
               <p><strong>Status:</strong> <%= order.status %></p>
               <p><strong>Address:</strong> <%= order.address %></p>
               <div class="mt-4">

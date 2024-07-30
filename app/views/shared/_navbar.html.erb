@@ -5,13 +5,10 @@
       <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-between">
         <div class="hidden sm:flex items-center justify-center">
           <div class="flex space-x-10">
-            <%= link_to 'Thrift Basket', root_path, class: "text-gray-500 hover:underline py-2 rounded-md text-md font-medium" %>
+            <%= link_to root_path do %>
+              <%= image_tag 'logo.png', class: 'hidden lg:block h-20 w-auto' %>
+            <% end %>
           </div>
-        </div>
-        <div class="flex-shrink-0 flex flex-wrap justify-center items-center">
-          <%= link_to root_path do %>
-            <%= image_tag 'logo.png', class: 'hidden lg:block h-20 w-auto' %>
-          <% end %>
         </div>
 
         <div class="hidden sm:flex sm:ml-6 items-center justify-center rounded">
@@ -26,23 +23,32 @@
 
 
             <% if user_signed_in? %>
-              <%= link_to profile_path, class: "text-gray-500 hover:underline py-2 rounded-md text-md font-medium" do %>
-                <%= icon 'fa-solid', 'user' %>
-                <% end %>
-              <%= link_to wishlist_path , class: "text-gray-500 hover:underline py-2 rounded-md text-md font-medium" do %>
+              <div class="relative">
+                <button id="profile-menu" class="text-gray-500 hover:underline py-2 rounded-md text-md font-medium">
+                  <%= icon 'fa-solid', 'user' %>
+                </button>
+                <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20">
+                  <%= link_to 'My Profile', profile_path, class: "block px-4 py-2 text-gray-700 hover:bg-gray-100" %>
+                  <%= link_to 'Edit Profile', edit_profile_path, class: "block px-4 py-2 text-gray-700 hover:bg-gray-100" %>
+                  <%= link_to 'Change Password', edit_user_registration_path, class: "block px-4 py-2 text-gray-700 hover:bg-gray-100" %>
+                  <%= link_to 'My Orders', user_orders_path(current_user), class: "block px-4 py-2 text-gray-700 hover:bg-gray-100" %>
+                </div>
+              </div>
+              <%= link_to wishlist_path, class: "text-gray-500 hover:underline py-2 rounded-md text-md font-medium" do %>
                 <%= icon 'fa-solid', 'heart' %>
-                <% end %>
-              <%= button_to 'Logout', destroy_user_session_path, method: :delete, class: "text-gray-500 hover:underline py-2 rounded-md text-md font-medium" %>
-              <%= link_to cart_path, class: "text-gray-500 hover:underline py-2 rounded-md text-md font-medium" do %>
-                <%= icon 'fa-solid', 'shopping-cart' %>
-<!--                <span id="cart-count" class="absolute top-0 right-0 inline-block w-5 h-5 bg-red-500 text-white text-center rounded-full text-xs">0</span>-->
+                <span id="wishlist-count" class="absolute top-0 right-15 inline-block w-5 h-5 bg-red-500 text-white text-center rounded-full text-xs">0</span>
+              <% end %>
 
+                <%= button_to 'Logout', destroy_user_session_path, method: :delete, class: "text-gray-500 hover:underline py-2 rounded-md text-md font-medium" %>
+              <%= link_to cart_path,class: "text-gray-500 hover:underline py-2 rounded-md text-md font-medium" do %>
+                <%= icon 'fa-solid', 'shopping-cart' %>
+                <span id="cart-count" class="absolute top-0 right-0 inline-block w-5 h-5 bg-red-500 text-white text-center rounded-full text-xs">0</span>
               <% end %>
             <% else %>
 
-              <%= link_to wishlist_guest_path , class: "text-gray-500 hover:underline py-2 rounded-md text-md font-medium" do %>
-                <%= icon 'fa-solid', 'heart' %>
-              <% end %>
+              <%#= link_to wishlist_guest_path , class: "text-gray-500 hover:underline py-2 rounded-md text-md font-medium" do %>
+                <%#= icon 'fa-solid', 'heart' %>
+              <%# end %>
               <%= link_to 'Login', new_user_session_path, class: "text-gray-500 hover:underline py-2 rounded-md text-md font-medium" %>
               <%= link_to 'Sign Up', new_user_registration_path, class: "text-gray-500 hover:underline py-2 rounded-md text-md font-medium" %>
             <% end %>
@@ -52,3 +58,9 @@
     </div>
   </div>
 </nav>
+<script>
+    document.getElementById('profile-menu').addEventListener('click', function() {
+        const dropdown = document.getElementById('profile-dropdown');
+        dropdown.classList.toggle('hidden');
+    });
+</script>

@@ -1,22 +1,64 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Ecommerce</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
-    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+<head>
+  <title>Ecommerce</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_importmap_tags %>
+</head>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
-  </head>
+<body class="bg-gray-100"  data-turbo="false">
+<%= render 'shared/navbar' %>
+<main class="container mx-auto mt-28 <%= ['sessions', 'registrations', 'reviews'].include?(controller_name) ? 'max-w-3xl' : 'max-w-9xl' %> px-4 sm:px-6 lg:px-8">
+  <%= render 'shared/alerts' %>
+  <%= yield %>
+</main>
+<%= render 'shared/footer' %>
+<%= javascript_include_tag "alerts" %>
 
-  <body>
-  <%= render 'shared/navbar' %>
-  <main class="container mx-auto mt-28  <%= ['sessions', 'registrations', 'reviews'].include?(controller_name) ? 'max-w-3xl' : 'max-w-9xl' %> px-4 sm:px-6 lg:px-8">
-    <%= yield %>
-    </main>
-  <%= render 'shared/footer' %>
-  </body>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const cartCount = document.getElementById('cart-count');
+        const wishlistCount = document.getElementById('wishlist-count')
+
+        function updateCartCount() {
+            fetch('/cart_data', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': document.querySelector("[name='csrf-token']").content
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Cart data:', data); // Log the response to check its structure
+                    const cartCountValue = data.cart_items.reduce((total, item) => total + item.quantity, 0);
+                    cartCount.innerText = cartCountValue;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function updateWishlistCount() {
+            fetch('/wishlist_data', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': document.querySelector("[name='csrf-token']").content
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Wishlist data:', data); // Log the response to check its structure
+                    const wishlistCountValue = data.wishlist_items.length;
+                    wishlistCount.innerText = wishlistCountValue;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        updateWishlistCount()
+        updateCartCount(); // Call the function to update the cart count on page load
+    });
+</script>
+</body>
 </html>
-

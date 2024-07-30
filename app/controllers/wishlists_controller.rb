@@ -1,6 +1,8 @@
 # app/controllers/wishlists_controller.rb
 class WishlistsController < ApplicationController
-  before_action :authenticate_user!, only: [:show]
+
+
+  before_action :authenticate_user!, only: [:show, :add_item, :remove_item]
 
   def show
     @wishlist = current_user.wishlist || current_user.initialize_wishlist
@@ -27,11 +29,17 @@ class WishlistsController < ApplicationController
   def guest
 
   end
-  def authenticate_user!
-    unless user_signed_in?
-      redirect_to wishlist_guest_path
-    end
+
+  def wishlist_data
+   @wishlist = current_user.wishlist || current_user.initialize_wishlist
+   render json: { wishlist_items: @wishlist.wishlist_items.as_json(include: :product) }
   end
 
-
+  def authenticate_user!
+    unless user_signed_in?
+      respond_to do |format|
+        format.html { redirect_to new_user_session_path }
+      end
+    end
+  end
 end

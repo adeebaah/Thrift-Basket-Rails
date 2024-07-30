@@ -1,21 +1,20 @@
 class Admin::ProductsController < AdminController
   before_action :set_admin_product, only: %i[ show edit update destroy ]
 
-  # GET /admin/admin or /admin/admin.json
   def index
+    # @admin_products = Product.page(params[:page])
     @admin_products = Product.page(params[:page])
   end
 
-  # GET /admin/admin/1 or /admin/admin/1.json
+
   def show
   end
 
-  # GET /admin/admin/new
   def new
     @admin_product = Product.new
   end
 
-  # GET /admin/admin/1/edit
+
   def edit
   end
 
@@ -48,8 +47,7 @@ class Admin::ProductsController < AdminController
       render :edit, status: :unprocessable_entity
     end
   end
-  #
-  # DELETE /admin/admin/1 or /admin/admin/1.json
+
   def destroy
     if @admin_product.destroy
       respond_to do |format|
@@ -102,7 +100,7 @@ class Admin::ProductsController < AdminController
     @product = Product.find(params[:id])
   end
 
-    # Only allow a list of trusted parameters through.
+
     def admin_product_params
       params.require(:product).permit(:name, :description, :price, :category_id, :active, images: [])
     end

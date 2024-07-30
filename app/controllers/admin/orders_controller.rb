@@ -1,27 +1,23 @@
+# app/controllers/admin/orders_controller.rb
 class Admin::OrdersController < AdminController
   before_action :set_admin_order, only: %i[ show edit update destroy ]
 
-  # GET /admin/orders or /admin/orders.json
   def index
     @not_fulfilled_orders = Order.where(status: 'Pending').order(created_at: :asc)
     @fulfilled_orders = Order.where(status: 'Fulfilled').order(created_at: :asc)
   end
 
-  # GET /admin/orders/1 or /admin/orders/1.json
   def show
     @order_products = @admin_order.order_products.includes(:product)
   end
 
-  # GET /admin/orders/new
   def new
     @admin_order = Order.new
   end
 
-  # GET /admin/orders/1/edit
   def edit
   end
 
-  # POST /admin/orders or /admin/orders.json
   def create
     @admin_order = Order.new(admin_order_params)
 
@@ -36,7 +32,6 @@ class Admin::OrdersController < AdminController
     end
   end
 
-  # PATCH/PUT /admin/orders/1 or /admin/orders/1.json
   def update
     respond_to do |format|
       if @admin_order.update(admin_order_params)
@@ -49,7 +44,6 @@ class Admin::OrdersController < AdminController
     end
   end
 
-  # DELETE /admin/orders/1 or /admin/orders/1.json
   def destroy
     @admin_order.destroy!
 
@@ -61,13 +55,11 @@ class Admin::OrdersController < AdminController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_admin_order
     @admin_order = Order.find(params[:id])
   end
 
-  # Only allow a list of trusted parameters through.
   def admin_order_params
-    params.require(:order).permit(:customer_email, :total, :address, :status, :user_id)
+    params.require(:order).permit(:customer_email, :total, :address, :status, :user_id, :delivery_mode)
   end
 end
