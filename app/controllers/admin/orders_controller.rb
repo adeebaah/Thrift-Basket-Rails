@@ -1,10 +1,14 @@
 # app/controllers/admin/orders_controller.rb
 class Admin::OrdersController < AdminController
-  before_action :set_admin_order, only: %i[ show edit update destroy ]
+  before_action :set_admin_order, only: %i[show edit update destroy]
 
   def index
+
+    @recent_orders = Order.order(created_at: :desc).limit(10)
     @not_fulfilled_orders = Order.where(status: 'Pending').order(created_at: :asc)
     @fulfilled_orders = Order.where(status: 'Fulfilled').order(created_at: :asc)
+    @progress_orders = Order.where(status: 'Progress').order(created_at: :asc)
+    @delivered_orders = Order.where(status: 'Delivered').order(created_at: :asc)
   end
 
   def show
@@ -33,8 +37,12 @@ class Admin::OrdersController < AdminController
   end
 
   def update
+    old_status = @admin_order.status
     respond_to do |format|
       if @admin_order.update(admin_order_params)
+        if old_status != 'Fulfilled' && @admin_order.status == 'Fulfilled'
+          adjust_and_reduce_stock(@admin_order)
+        end
         format.html { redirect_to admin_order_url(@admin_order), notice: "Order was successfully updated." }
         format.json { render :show, status: :ok, location: @admin_order }
       else
@@ -53,6 +61,7 @@ class Admin::OrdersController < AdminController
     end
   end
 
+
   private
 
   def set_admin_order
@@ -60,6 +69,19 @@ class Admin::OrdersController < AdminController
   end
 
   def admin_order_params
-    params.require(:order).permit(:customer_email, :total, :address, :status, :user_id, :delivery_mode)
+    params.require(:order).permit(:customer_email, :total, :address, :status, :user_id, :delivery_mode, :phone)
+  end
+
+  def adjust_and_reduce_stock(order)
+    total = 0
+    order.order_products.each do |order_product|
+      stock = Stock.find_by(product_id: order_product.product_id, size: order_product.size)
+      if stock && stock.amount < order_product.quantity
+        order_product.update(quantity: stock.amount)
+      end
+      total += order_product.product.price * order_product.quantity if stock
+      Stock.reduce!(order_product.product_id, order_product.size, order_product.quantity) if stock
+    end
+    order.update(total: total)
   end
 end

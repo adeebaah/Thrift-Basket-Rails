@@ -10,19 +10,30 @@
   <%= javascript_importmap_tags %>
 </head>
 
-<body class="bg-gray-100"  data-turbo="false">
+<body class="bg-gray-100" data-turbo="false">
 <%= render 'shared/navbar' %>
-<main class="container mx-auto mt-28 <%= ['sessions', 'registrations', 'reviews'].include?(controller_name) ? 'max-w-3xl' : 'max-w-9xl' %> px-4 sm:px-6 lg:px-8">
+
+<div class="flex">
+  <% if controller_name == 'products' && action_name == 'index' %>
+    <div class="fixed top-44 left-12 h-auto w-64 bg-grey-200 p-6 shadow-lg z-20">
+      <%= render 'shared/filter_sidebar' %>
+    </div>
+    <main class="container mx-auto mt-28 ml-64 <%= ['sessions', 'registrations', 'reviews'].include?(controller_name) ? 'max-w-3xl' : 'max-w-9xl' %> px-4 sm:px-6 lg:px-8">
+  <% else %>
+    <main class="container mx-auto mt-28 <%= ['sessions', 'registrations', 'reviews'].include?(controller_name) ? 'max-w-3xl' : 'max-w-9xl' %> px-4 sm:px-6 lg:px-8">
+  <% end %>
   <%= render 'shared/alerts' %>
   <%= yield %>
-</main>
+  </main>
+</div>
+
 <%= render 'shared/footer' %>
 <%= javascript_include_tag "alerts" %>
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const cartCount = document.getElementById('cart-count');
-        const wishlistCount = document.getElementById('wishlist-count')
+        const wishlistCount = document.getElementById('wishlist-count');
 
         function updateCartCount() {
             fetch('/cart_data', {
@@ -56,7 +67,7 @@
                 .catch(error => console.error('Error:', error));
         }
 
-        updateWishlistCount()
+        updateWishlistCount();
         updateCartCount(); // Call the function to update the cart count on page load
     });
 </script>

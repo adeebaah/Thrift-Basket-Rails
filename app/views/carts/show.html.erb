@@ -1,26 +1,30 @@
 <body>
 <div class="min-h-screen p-6 bg-gray-100">
-  <h1 class="text-3xl font-bold mb-6">Cart Page</h1>
-
+  <h1 class="flex justify-center text-3xl font-bold mb-6">Cart Page</h1>
 
   <div id="errorContainer"></div>
 
   <div id="cart-items" class="space-y-4">
     <% if @cart_items.any? %>
       <% @cart_items.each do |item| %>
-        <div class="bg-white p-4 rounded shadow flex justify-between items-center">
-          <div>
+        <div class="bg-white p-4 rounded shadow flex items-start">
+          <div class="flex-shrink-0 mr-4">
+            <%= link_to product_path(item.product) do %>
+              <%= item.product.images.first.present? ? image_tag(item.product.images.first, class: "max-w-xs cursor-pointer") : image_tag("https://via.placeholder.com/512", class: "max-w-xs cursor-pointer") %>
+            <% end %>
+          </div>
+          <div class="flex-grow">
             <h3 class="text-lg font-semibold"><%= item.product.name %></h3>
             <p>Price: BDT <%= item.product.price %> </p>
             <p>Size / Color: <%= item.size %></p>
             <p>Subtotal: BDT <%= (item.product.price * item.quantity) %></p>
-          </div>
-          <div class="flex items-center space-x-4">
-            <%= button_to 'Remove', remove_item_cart_path(item), method: :delete, class:"bg-red-500 text-white px-4 py-2 rounded hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-red-500" %>
-            <div class="flex items-center border border-gray-300 rounded">
-              <%= button_to '-', decrease_quantity_cart_path(item), method: :patch, class: "bg-gray-300 text-gray-800 px-3 py-1 rounded-l hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" %>
-              <span class="font-semibold text-lg px-3"><%= item.quantity %></span>
-              <%= button_to '+', increase_quantity_cart_path(item), method: :patch, class: "bg-gray-300 text-gray-800 px-3 py-1 rounded-r hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+            <div class="flex items-center items-start space-x-10 mt-2">
+              <%= button_to 'Remove', remove_item_cart_path(item), method: :delete, class:"bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500" %>
+              <div class="flex items-center border border-gray-300 rounded">
+                <%= button_to '-', decrease_quantity_cart_path(item), method: :patch, class: "bg-gray-300 text-gray-800 px-3 py-1 rounded-l hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+                <span class="font-semibold text-lg px-3"><%= item.quantity %></span>
+                <%= button_to '+', increase_quantity_cart_path(item), method: :patch, class: "bg-gray-300 text-gray-800 px-3 py-1 rounded-r hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+              </div>
             </div>
           </div>
         </div>
@@ -40,4 +44,106 @@
     <%= link_to "Browse All", products_path, class: "py-2 px-10 bg-gray-500 hover:bg-gray-600 text-white font-bold rounded focus:outline-none focus:ring-2 focus:ring-gray-500" %>
   </div>
 </div>
+
+<!--CART EMPTY MODAL-->
+
+<div id="emptyCartModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
+  <div class="bg-white p-6 rounded-lg shadow-lg">
+    <h2 class="text-xl font-bold mb-4">Your cart is empty</h2>
+    <p class="mb-4">Please add items to your cart before proceeding to checkout.</p>
+    <button id="closeEmptyCartModal" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">Close</button>
+  </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const emptyCartModal = document.getElementById('emptyCartModal');
+        const closeEmptyCartModalButton = document.getElementById('closeEmptyCartModal');
+
+        // Check if there's a flash message for an empty cart
+        <% if flash[:error] == "Your cart is empty" %>
+        emptyCartModal.classList.remove('hidden');
+        <% end %>
+
+        closeEmptyCartModalButton.addEventListener('click', () => {
+            emptyCartModal.classList.add('hidden');
+        });
+    });
+</script>
+
+</body>
+
+<body>
+<div class="min-h-screen p-6 bg-gray-100">
+  <h1 class="flex justify-center text-3xl font-bold mb-6">Cart Page</h1>
+
+  <div id="errorContainer"></div>
+
+  <div id="cart-items" class="space-y-4">
+    <% if @cart_items.any? %>
+      <% @cart_items.each do |item| %>
+        <div class="bg-white p-4 rounded shadow flex items-start">
+          <div class="flex-shrink-0 mr-4">
+            <div class="flex flex-col items-start space-y-2">
+              <%= button_to 'Remove', remove_item_cart_path(item), method: :delete, class:"bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500" %>
+              <div class="flex items-center border border-gray-300 rounded">
+                <%= button_to '-', decrease_quantity_cart_path(item), method: :patch, class: "bg-gray-300 text-gray-800 px-3 py-1 rounded-l hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+                <span class="font-semibold text-lg px-3"><%= item.quantity %></span>
+                <%= button_to '+', increase_quantity_cart_path(item), method: :patch, class: "bg-gray-300 text-gray-800 px-3 py-1 rounded-r hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+              </div>
+            </div>
+          </div>
+          <div class="flex-shrink-0 mr-4">
+            <%= link_to product_path(item.product) do %>
+              <%= item.product.images.first.present? ? image_tag(item.product.images.first, class: "max-w-xs cursor-pointer") : image_tag("https://via.placeholder.com/512", class: "max-w-xs cursor-pointer") %>
+            <% end %>
+          </div>
+          <div class="flex-grow">
+            <h3 class="text-lg font-semibold"><%= item.product.name %></h3>
+            <p>Price: BDT <%= item.product.price %> </p>
+            <p>Size / Color: <%= item.size %></p>
+            <p>Subtotal: BDT <%= (item.product.price * item.quantity) %></p>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="text-gray-700">No items in cart</p>
+    <% end %>
+  </div>
+
+  <div class="mt-4 font-medium text-xl" id="total">
+    Total: BDT <%= (@cart_items.sum { |item| item.product.price * item.quantity }) %>
+  </div>
+
+  <div class="flex justify-between mt-6">
+    <%= button_to 'Check out', checkout_cart_path, method: :post, class: "py-2 px-10 bg-gray-500 hover:bg-gray-600 text-white font-bold rounded focus:outline-none focus:ring-2 focus:ring-gray-500" %>
+    <%= button_to 'Clear Cart', clear_cart_path, method: :delete, class: "py-2 px-10 bg-red-500 hover:bg-red-600 rounded text-white focus:outline-none focus:ring-2 focus:ring-red-500" %>
+    <%= link_to "Browse All", products_path, class: "py-2 px-10 bg-gray-500 hover:bg-gray-600 text-white font-bold rounded focus:outline-none focus:ring-2 focus:ring-gray-500" %>
+  </div>
+</div>
+
+<!--CART EMPTY MODAL-->
+
+<div id="emptyCartModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
+  <div class="bg-white p-6 rounded-lg shadow-lg">
+    <h2 class="text-xl font-bold mb-4">Your cart is empty</h2>
+    <p class="mb-4">Please add items to your cart before proceeding to checkout.</p>
+    <button id="closeEmptyCartModal" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">Close</button>
+  </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const emptyCartModal = document.getElementById('emptyCartModal');
+        const closeEmptyCartModalButton = document.getElementById('closeEmptyCartModal');
+
+        // Check if there's a flash message for an empty cart
+        <% if flash[:error] == "Your cart is empty" %>
+        emptyCartModal.classList.remove('hidden');
+        <% end %>
+
+        closeEmptyCartModalButton.addEventListener('click', () => {
+            emptyCartModal.classList.add('hidden');
+        });
+    });
+</script>
+
 </body>

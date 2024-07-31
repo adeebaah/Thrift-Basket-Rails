@@ -27,7 +27,7 @@ class CartsController < ApplicationController
       end
 
       if @cart_item.save
-        Stock.reduce!(@product.id, params[:size], 1)
+
         render json: { success: true, cart_items: @cart.cart_items.as_json(include: :product) }
       else
         render json: { success: false, message: 'Error adding item to cart' }, status: :unprocessable_entity
@@ -40,8 +40,15 @@ class CartsController < ApplicationController
   def increase_quantity
     cart_item = current_user.cart.cart_items.find(params[:id])
     if Stock.available?(cart_item.product_id, cart_item.size)
-      cart_item.update(quantity: cart_item.quantity + 1)
-      Stock.reduce!(cart_item.product_id, cart_item.size, 1)
+      desired_quantity = cart_item.quantity + 1
+
+      if Stock.available_quantity(cart_item.product_id, cart_item.size) >= desired_quantity
+        cart_item.update(quantity: desired_quantity)
+      else
+        flash[:alert] = 'Not enough stock available'
+      end
+    else
+      flash[:alert] = 'Stock not available'
     end
     redirect_to cart_path
   end
@@ -50,9 +57,7 @@ class CartsController < ApplicationController
     cart_item = current_user.cart.cart_items.find(params[:id])
     if cart_item.quantity > 1
       cart_item.update(quantity: cart_item.quantity - 1)
-      Stock.increase!(cart_item.product_id, cart_item.size, 1)
     else
-      Stock.increase!(cart_item.product_id, cart_item.size, cart_item.quantity)
       cart_item.destroy
     end
     redirect_to cart_path
@@ -60,21 +65,25 @@ class CartsController < ApplicationController
 
   def remove_item
     cart_item = current_user.cart.cart_items.find(params[:id])
-    Stock.increase!(cart_item.product_id, cart_item.size, cart_item.quantity)
     cart_item.destroy
     redirect_to cart_path
   end
 
   def clear
-    current_user.cart.cart_items.each do |cart_item|
-      Stock.increase!(cart_item.product_id, cart_item.size, cart_item.quantity)
-    end
     current_user.cart.cart_items.destroy_all
     redirect_to cart_path
   end
 
   def checkout
-    redirect_to details_cart_path
+    @cart = current_user.cart || current_user.create_cart
+    if @cart.cart_items.empty?
+      respond_to do |format|
+        format.html { redirect_to cart_path, flash: { error: "Your cart is empty" } }
+        format.json { render json: { success: false, message: "Your cart is empty" }, status: :unprocessable_entity }
+      end
+    else
+      redirect_to details_cart_path
+    end
   end
 
   def details
@@ -97,8 +106,8 @@ class CartsController < ApplicationController
         product: item.product,
         size: item.size,
         quantity: item.quantity,
+        )
 
-      )
     end
 
     current_user.cart.cart_items.destroy_all
@@ -119,3 +128,6 @@ class CartsController < ApplicationController
     current_user.cart.cart_items.sum { |item| item.product.price * item.quantity }
   end
 end
+
+
+

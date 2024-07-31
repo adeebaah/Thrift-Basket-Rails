@@ -3,4 +3,6 @@ import "@hotwired/turbo-rails"
 import "controllers"
 import "chartkick"
 import "Chart.bundle"
+//= require out_of_stock_modal
+
 

@@ -5,6 +5,17 @@ class ProductsController < ApplicationController
 
   def index
     @products = Product.all
+
+    case params[:filter]
+    when 'price_asc'
+      @products = @products.order(price: :asc)
+    when 'price_desc'
+      @products = @products.order(price: :desc)
+    when 'newness'
+      @products = @products.order(created_at: :desc)
+    else
+      @products = @products.order(created_at: :desc)
+    end
   end
 
   def search

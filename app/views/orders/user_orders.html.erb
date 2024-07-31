@@ -1,4 +1,3 @@
-
 <body class="bg-gray-100">
 <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
   <div class="max-w-4xl w-full bg-white p-8 shadow-lg rounded-lg">
@@ -19,22 +18,18 @@
                     <li>
                       <label>
                         <%= check_box_tag "reorder_items[]", order_product.id %>
-                        <%= order_product.product.name %> - Quantity: <%= order_product.quantity %>, Size: <%= order_product.size %>
+                        <%= link_to order_product.product.name, product_path(order_product.product), class: "font-semibold text-grey-900 hover:underline" %> - Quantity: <%= order_product.quantity %>, Size: <%= order_product.size %>
                       </label>
                     </li>
-
                   <% end %>
                 </ul>
                 <div class="mt-6 text-center">
-                  <%= submit_tag 'Reorder Selected Items', class: 'inline-block px-4 py-2 bg-blue-800 hover:bg-blue-900 text-white font-bold rounded-lg' %>
+                  <%= submit_tag 'Reorder Selected Items', class: 'inline-block px-4 py-2 bg-cyan-800 hover:bg-blue-900 text-white font-bold rounded-lg' %>
                 </div>
               </div>
             </div>
-
           <% end %>
-
         </div>
-
       <% end %>
     <% else %>
       <p class="text-center text-gray-700">You have no orders yet.</p>
@@ -42,4 +37,3 @@
   </div>
 </div>
 </body>
-

@@ -3,7 +3,7 @@ class OrdersController < ApplicationController
 
   def user_orders
     @user = User.find(params[:id])
-    @orders = @user.orders
+    @orders = @user.orders.order(created_at: :desc).limit(15)
   end
 
   def reorder_items
