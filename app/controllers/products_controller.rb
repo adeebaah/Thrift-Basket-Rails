@@ -29,9 +29,10 @@ class ProductsController < ApplicationController
     @products = Product.where(visible: true).where(
       query_tokens.map { "name ILIKE ?" }.join(" OR "),
       *query_tokens.flat_map { |token| [token] }
-    )
+    ).page(params[:page]).per(8) 
 
     render :index
   end
+
 
 end

@@ -212,12 +212,12 @@
                 })
                   .then(response => response.json())
                   .then(data => {
-                      console.log('Remove item response:', data); // Log the response to check its structure
+                      console.log('Remove item response:', data);
                       if (data.success) {
-                          updateCartCount(); // Update cart count
-                          // Optionally remove the item from the DOM
+                          updateCartCount();
+
                       } else {
-                          // Handle error...
+
                       }
                   })
                   .catch(error => console.error('Error:', error));
