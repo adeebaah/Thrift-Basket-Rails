@@ -4,7 +4,7 @@ class ProductsController < ApplicationController
   end
 
   def index
-    @products = Product.all
+    @products = Product.where(visible: true).page(params[:page]).per(8)
 
     case params[:filter]
     when 'price_asc'
@@ -18,15 +18,20 @@ class ProductsController < ApplicationController
     end
   end
 
+  def new_arrivals
+    @products = Product.where(visible: true).order(created_at: :desc).limit(10)
+  end
+
   def search
     query = params[:query]
     query_tokens = query.split.map { |token| "%#{token}%" }
 
-    @products = Product.where(
+    @products = Product.where(visible: true).where(
       query_tokens.map { "name ILIKE ?" }.join(" OR "),
       *query_tokens.flat_map { |token| [token] }
     )
 
     render :index
   end
+
 end

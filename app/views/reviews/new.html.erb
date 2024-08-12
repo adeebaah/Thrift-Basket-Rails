@@ -1,19 +1,60 @@
-<h1 >Write a Review for <%= @product.name %></h1>
+<h1 class="text-center text-2xl font-bold mb-6">Write a Review for <%= @product.name %></h1>
 
-<div class="min-h-screen flex items-center justify-center  bg-gray-100">
-  <%= form_with model: [@product, @review], local: true do |form| %>
-    <div class="mb-4 rounded-md shadow-sm space-y-px">
-      <%= form.label :rating, class: "block text-gray-700 font-bold mb-2" %>
-      <%= form.select :rating, options_for_select(1..5), {}, class: "form-select mt-1 block w-full" %>
-    </div>
+<div class="min-h-screen bg-white flex justify-center pt-12">
+  <div class="bg-white p-6 rounded-md shadow-md w-full max-w-md">
+    <%= form_with model: [@product, @review], local: true do |form| %>
+      <div class="mb-4">
+        <%= form.label :rating, class: "block text-gray-700 font-bold mb-2" %>
+        <div class="flex space-x-1">
+          <% (1..5).each do |star| %>
+            <label class="star-rating">
+              <%= form.radio_button :rating, star, class: "hidden", id: "star#{star}" %>
+              <i class="fa fa-star text-gray-300 cursor-pointer" data-star="<%= star %>"></i>
+            </label>
+          <% end %>
+        </div>
+      </div>
 
-    <div class="mb-4 w-full ">
-      <%= form.label :comment, class: "block text-gray-700 font-bold mb-2 rounded w-full" %>
-      <%= form.text_area :comment, class: "form-textarea mt-1 block w-full" %>
-    </div>
+      <div class="mb-4">
+        <%= form.label :comment, class: "block text-gray-700 font-bold mb-2" %>
+        <%= form.text_area :comment, class: "form-textarea mt-1 block w-full" %>
+      </div>
 
-    <div class="mt-4">
-      <%= form.submit "Submit Review", class: "bg-pink-500 hover:bg-pink-200 text-white font-bold py-2 px-4 rounded" %>
-    </div>
-  <% end %>
+      <div class="mt-4 text-center">
+        <%= form.submit "Submit Review", class: "bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" %>
+      </div>
+    <% end %>
+  </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const stars = document.querySelectorAll('.star-rating i');
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                const rating = this.getAttribute('data-star');
+                document.getElementById(`star${rating}`).checked = true;
+                stars.forEach(s => {
+                    s.classList.remove('text-yellow-400');
+                    s.classList.add('text-gray-300');
+                });
+                for (let i = 0; i < rating; i++) {
+                    stars[i].classList.remove('text-gray-300');
+                    stars[i].classList.add('text-yellow-400');
+                }
+            });
+        });
+    });
+</script>
+
+<style>
+    .star-rating i {
+        font-size: 1.5rem;
+        transition: color 0.2s;
+    }
+    .star-rating input:checked ~ i,
+    .star-rating i:hover,
+    .star-rating i:hover ~ i {
+        color: #fbbf24; /* yellow-400 */
+    }
+</style>

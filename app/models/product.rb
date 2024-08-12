@@ -1,6 +1,8 @@
 class Product < ApplicationRecord
   paginates_per 8
 
+  attribute :visible, :boolean, default: true
+
   has_many_attached :images do |attachable|
     attachable.variant :medium, resize_to_limit: [250,250]
   end

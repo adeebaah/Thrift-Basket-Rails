@@ -1,28 +1,26 @@
-
-  <h1 class="flex justify-center text-2xl font-bold mb-4">My Wishlist</h1>
-<div class="min-h-screen">
+<h1 class="flex justify-center text-2xl font-bold mb-4">My Wishlist</h1>
+<div class="min-h-screen flex items-center justify-center">
   <% if @wishlist.wishlist_items.any? %>
     <div class="flex flex-wrap justify-center gap-6">
       <% @wishlist.wishlist_items.each do |item| %>
-        <div class="max-w-xs bg-gray-200 shadow-lg rounded-lg overflow-hidden">
-          <div class="p-4">
-            <%= item.product.images.first.present? ? image_tag(item.product.images.first.variant(resize_to_limit: [250, 250]).processed, class: "rounded") : image_tag("https://via.placeholder.com/250", class: "rounded") %>
+        <div class="max-w-xs bg-gray-200 shadow-lg rounded-lg p-4">
+          <h3 class="font-bold text-gray-800 text-center"><%= item.product.name %></h3>
+          <div class="h-64 w-64 mt-4 flex items-center justify-center bg-white rounded-lg overflow-hidden mx-auto">
+            <%= item.product.images.first.present? ? image_tag(item.product.images.first.variant(resize_to_limit: [250, 250]).processed, class: "max-h-full max-w-full") : image_tag("https://via.placeholder.com/250", class: "max-h-full max-w-full") %>
           </div>
-          <div class="p-4">
-            <h3 class="mt-2 font-bold text-gray-800 text-center"><%= item.product.name %></h3>
-            <p class="text-gray-600 text-center"><%= item.product.description %></p>
-            <p class="text-gray-700 text-center mt-2">$<%= item.product.price / 100.0 %></p>
-            <div class="flex justify-center mt-4 space-x-2">
-              <%= link_to 'View Details', product_path(item.product), class: "bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded" %>
-              <%= button_to 'Remove', remove_item_wishlist_path(item), method: :delete, class: "bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded" %>
-            </div>
+          <p class="text-gray-600 text-center mt-4"><%= item.product.description %></p>
+          <p class="text-gray-700 text-center mt-2">$<%= item.product.price / 100.0 %></p>
+          <div class="flex justify-center mt-4 space-x-2">
+            <%= link_to 'View Details', product_path(item.product), class: "bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-2 rounded text-sm" %>
+            <%= button_to 'Remove', remove_item_wishlist_path(item), method: :delete, class: "bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded text-sm" %>
           </div>
         </div>
       <% end %>
     </div>
   <% else %>
-    <p class="flex justify-center">Your wishlist is empty.</p>
-    <br>
-    <%= link_to 'Browse Products', products_path, class: " justify-center bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded" %>
+    <div class="flex flex-col items-center justify-center">
+      <p class="text-black-800 mb-4">Your wishlist is empty.</p>
+      <%= link_to 'Browse Products', products_path, class: "bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded" %>
+    </div>
   <% end %>
 </div>

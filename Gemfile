@@ -81,6 +81,5 @@ gem 'dotenv-rails', groups: [:development, :test]
 gem "faraday"
 gem 'jquery-rails'
 gem "jquery-slick-rails"
-gem 'will_paginate', '~> 3.3'
-gem 'bootstrap-will_paginate', '1.0.0'
+
 gem "kaminari"

@@ -2,8 +2,7 @@ class Admin::ProductsController < AdminController
   before_action :set_admin_product, only: %i[ show edit update destroy ]
 
   def index
-    # @admin_products = Product.page(params[:page])
-    @admin_products = Product.page(params[:page])
+    @admin_products = Product.page(params[:page]).order('created_at DESC')
   end
 
 
@@ -102,6 +101,6 @@ class Admin::ProductsController < AdminController
 
 
     def admin_product_params
-      params.require(:product).permit(:name, :description, :price, :category_id, :active, images: [])
+      params.require(:product).permit(:name, :description, :price, :visible, :category_id, :active, images: [])
     end
 end

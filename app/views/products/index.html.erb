@@ -22,9 +22,18 @@
       </div>
     <% end %>
   </div>
+  <div class="w-full flex justify-center mt-6">
+    <%= paginate @products, window: 1  %>
+    <br>
+  </div>
+  <br>
 <% else %>
-  <p>No products found</p>
+  <div class="min-h-screen flex flex-col w-full justify-center mt-8 items-center gap-10">
+    <div class="flex justify-center">
+      <h1 class="text-2xl font-semibold">Ooops :(</h1>
+    </div>
+    <div class="flex justify-center">
+      <p class="text-3xl font-bold">No products found</p>
+    </div>
+  </div>
 <% end %>
-
-<h1>Bruh im so sleepy cant even open my eyes</h1>
-

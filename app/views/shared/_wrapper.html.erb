@@ -1,5 +1,5 @@
-
-  <div class="container py-10mx-auto sm:px-6 py-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="w-full bg-white py-8">
+  <div class="container mx-auto sm:px-6 py-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
     <% data = [
       { cover: 'fa-solid fa-truck-fast', title: 'Eco-friendly', desc: 'Helps us reduce waste and save the environment.' },
       { cover: 'fa-solid fa-id-card', title: 'Safe Payment', desc: 'Using trusted and secure payment platforms is crucial to protect personal and financial information when making online purchases.' },
@@ -8,7 +8,7 @@
     ] %>
 
     <% data.each do |val| %>
-      <div class="product text-center p-4 bg-white rounded-lg shadow-lg">
+      <div class="product text-center p-4 bg-gray-100 rounded-lg shadow-lg">
         <div class="img icon-circle text-4xl text-gray-700 mb-4">
           <i class="<%= val[:cover] %>"></i>
         </div>
@@ -17,3 +17,4 @@
       </div>
     <% end %>
   </div>
+</div>

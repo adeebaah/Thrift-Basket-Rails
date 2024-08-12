@@ -1,4 +1,7 @@
 class Order < ApplicationRecord
+
+  paginates_per 8
+
   belongs_to :user
   has_many :order_products, dependent: :destroy
 

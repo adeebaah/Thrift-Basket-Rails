@@ -15,6 +15,9 @@ Rails.application.routes.draw do
   # Devise routes for admins
   devise_for :admins
 
+  get 'load_more_products', to: 'home#load_more_products'
+  get 'new_arrivals', to: 'products#new_arrivals'
+
   # Namespace for admin routes
   namespace :admin do
     resources :orders

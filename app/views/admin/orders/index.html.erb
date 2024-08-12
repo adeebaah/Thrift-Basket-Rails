@@ -1,3 +1,306 @@
+<!--<body class="bg-gray-100">-->
+<!--<div class="w-full max-w-7xl mx-auto">-->
+  <%# if notice.present? %>
+<!--    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%#= notice %></p>-->
+  <%# end %>
+
+  <%# content_for :title, "Orders" %>
+
+<!--  <div class="flex justify-between items-center">-->
+<!--    <h1 class="font-bold text-4xl">Orders</h1>-->
+    <%#= link_to "New order", new_admin_order_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+<!--  </div>-->
+
+<!--  <div class="mt-6">-->
+<!--    <label for="order-status" class="block text-sm font-medium text-gray-700">Filter by Status</label>-->
+<!--    <select id="order-status" name="order-status" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">-->
+<!--      <option value="all">All</option>-->
+<!--      <option value="recent">Most Recent Orders</option>-->
+<!--      <option value="unfulfilled">Unfulfilled Orders</option>-->
+<!--      <option value="fulfilled">Fulfilled Orders</option>-->
+<!--      <option value="progress">Progress Orders</option>-->
+<!--      <option value="delivered">Delivered Orders</option>-->
+<!--    </select>-->
+<!--  </div>-->
+
+
+<!--  <div id="orders-container" class="mt-8 space-y-6">-->
+<!--    <div id="recent-orders" class="orders-section hidden">-->
+<!--      <h2 class="font-bold text-2xl mb-4">Most Recent Orders</h2>-->
+<!--      <div class="flex flex-col w-full">-->
+<!--        <div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5">-->
+<!--          <div class="py-2 inline-block min-w-full">-->
+<!--            <div class="overflow-x-auto">-->
+<!--              <table class="min-w-full overflow-x-scroll">-->
+<!--                <thead class="bg-white border-b">-->
+<!--                <tr>-->
+<!--                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">-->
+<!--                    Order ID-->
+<!--                  </th>-->
+<!--                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">-->
+<!--                    Customer Email-->
+<!--                  </th>-->
+<!--                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">-->
+<!--                    Address-->
+<!--                  </th>-->
+<!--                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">-->
+<!--                    Total Amount-->
+<!--                  </th>-->
+<!--                </tr>-->
+<!--                </thead>-->
+<!--                <tbody>-->
+                <%# @recent_orders.each do |order| %>
+<!--                  <tr class="bg-gray-50 border-b">-->
+<!--                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 underline">-->
+                      <%#= link_to order.id, [:admin, order], class: 'underline' %>
+<!--                    </td>-->
+<!--                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">-->
+                      <%#= order.customer_email %>
+<!--                    </td>-->
+<!--                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">-->
+                      <%#= order.address %>
+<!--                    </td>-->
+<!--                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">-->
+                      <%#= order.total %>
+<!--                    </td>-->
+<!--                  </tr>-->
+                <%# end %>
+<!--                </tbody>-->
+<!--              </table>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    <div id="unfulfilled-orders" class="orders-section hidden">-->
+<!--      <h2 class="font-bold text-2xl mb-4">Unfulfilled Orders</h2>-->
+<!--      <div class="flex flex-col w-full">-->
+<!--        <div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5">-->
+<!--          <div class="py-2 inline-block min-w-full">-->
+<!--            <div class="overflow-x-auto">-->
+<!--              <table class="min-w-full overflow-x-scroll">-->
+<!--                <thead class="bg-white border-b">-->
+<!--                <tr>-->
+<!--                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">-->
+<!--                    Order ID-->
+<!--                  </th>-->
+<!--                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">-->
+<!--                    Customer Email-->
+<!--                  </th>-->
+<!--                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">-->
+<!--                    Address-->
+<!--                  </th>-->
+<!--                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">-->
+<!--                    Total Amount-->
+<!--                  </th>-->
+<!--                </tr>-->
+<!--                </thead>-->
+<!--                <tbody>-->
+                <%# @not_fulfilled_orders.each do |order| %>
+<!--                  <tr class="bg-gray-50 border-b">-->
+<!--                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 underline">-->
+                      <%#= link_to order.id, [:admin, order], class: 'underline' %>
+<!--                    </td>-->
+<!--                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">-->
+                      <%#= order.customer_email %>
+<!--                    </td>-->
+<!--                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">-->
+                      <%#= order.address %>
+<!--                    </td>-->
+<!--                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">-->
+                      <%#= order.total %>
+<!--                    </td>-->
+<!--                  </tr>-->
+                <%# end %>
+<!--                </tbody>-->
+<!--              </table>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    <div id="fulfilled-orders" class="orders-section hidden">-->
+<!--      <h2 class="font-bold text-2xl mb-4">Fulfilled Orders</h2>-->
+<!--      <div class="flex flex-col w-full">-->
+<!--        <div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5">-->
+<!--          <div class="py-2 inline-block min-w-full">-->
+<!--            <div class="overflow-x-auto">-->
+<!--              <table class="min-w-full overflow-x-scroll">-->
+<!--                <thead class="bg-white border-b">-->
+<!--                <tr>-->
+<!--                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">-->
+<!--                    Order ID-->
+<!--                  </th>-->
+<!--                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">-->
+<!--                    Customer Email-->
+<!--                  </th>-->
+<!--                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">-->
+<!--                    Address-->
+<!--                  </th>-->
+<!--                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">-->
+<!--                    Total Amount-->
+<!--                  </th>-->
+<!--                </tr>-->
+<!--                </thead>-->
+<!--                <tbody>-->
+                <%# @fulfilled_orders.each do |order| %>
+<!--                  <tr class="bg-gray-50 border-b">-->
+<!--                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 underline">-->
+                      <%#= link_to order.id, [:admin, order], class: 'underline' %>
+<!--                    </td>-->
+<!--                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">-->
+                      <%#= order.customer_email %>
+<!--                    </td>-->
+<!--                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">-->
+                      <%#= order.address %>
+<!--                    </td>-->
+<!--                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">-->
+                      <%#= order.total %>
+<!--                    </td>-->
+<!--                  </tr>-->
+                <%# end %>
+<!--                </tbody>-->
+<!--              </table>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    <div id="progress-orders" class="orders-section hidden">-->
+<!--      <h2 class="font-bold text-2xl mb-4">In Progress Orders</h2>-->
+<!--      <div class="flex flex-col w-full">-->
+<!--        <div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5">-->
+<!--          <div class="py-2 inline-block min-w-full">-->
+<!--            <div class="overflow-x-auto">-->
+<!--              <table class="min-w-full overflow-x-scroll">-->
+<!--                <thead class="bg-white border-b">-->
+<!--                <tr>-->
+<!--                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">-->
+<!--                    Order ID-->
+<!--                  </th>-->
+<!--                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">-->
+<!--                    Customer Email-->
+<!--                  </th>-->
+<!--                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">-->
+<!--                    Address-->
+<!--                  </th>-->
+<!--                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">-->
+<!--                    Total Amount-->
+<!--                  </th>-->
+<!--                </tr>-->
+<!--                </thead>-->
+<!--                <tbody>-->
+                <%# @progress_orders.each do |order| %>
+<!--                  <tr class="bg-gray-50 border-b">-->
+<!--                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 underline">-->
+                      <%#= link_to order.id, [:admin, order], class: 'underline' %>
+<!--                    </td>-->
+<!--                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">-->
+                      <%#= order.customer_email %>
+<!--                    </td>-->
+<!--                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">-->
+                      <%#= order.address %>
+<!--                    </td>-->
+<!--                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">-->
+                      <%#= order.total %>
+<!--                    </td>-->
+<!--                  </tr>-->
+                <%# end %>
+<!--                </tbody>-->
+<!--              </table>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    <div id="delivered-orders" class="orders-section hidden">-->
+<!--      <h2 class="font-bold text-2xl mb-4">Delivered Orders</h2>-->
+<!--      <div class="flex flex-col w-full">-->
+<!--        <div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5">-->
+<!--          <div class="py-2 inline-block min-w-full">-->
+<!--            <div class="overflow-x-auto">-->
+<!--              <table class="min-w-full overflow-x-scroll">-->
+<!--                <thead class="bg-white border-b">-->
+<!--                <tr>-->
+<!--                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">-->
+<!--                    Order ID-->
+<!--                  </th>-->
+<!--                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">-->
+<!--                    Customer Email-->
+<!--                  </th>-->
+<!--                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">-->
+<!--                    Address-->
+<!--                  </th>-->
+<!--                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">-->
+<!--                    Total Amount-->
+<!--                  </th>-->
+<!--                </tr>-->
+<!--                </thead>-->
+<!--                <tbody>-->
+                <%# @delivered_orders.each do |order| %>
+<!--                  <tr class="bg-gray-50 border-b">-->
+<!--                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 underline">-->
+                      <%#= link_to order.id, [:admin, order], class: 'underline' %>
+<!--                    </td>-->
+<!--                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">-->
+                      <%#= order.customer_email %>
+<!--                    </td>-->
+<!--                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">-->
+                      <%#= order.address %>
+<!--                    </td>-->
+<!--                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">-->
+                      <%#= order.total %>
+<!--                    </td>-->
+<!--                  </tr>-->
+                <%# end %>
+<!--                </tbody>-->
+<!--              </table>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--<script>-->
+<!--    document.addEventListener('DOMContentLoaded', () => {-->
+<!--        const orderStatusSelect = document.getElementById('order-status');-->
+<!--        const ordersContainer = document.getElementById('orders-container');-->
+<!--        const ordersSections = ordersContainer.getElementsByClassName('orders-section');-->
+
+<!--        orderStatusSelect.addEventListener('change', () => {-->
+<!--            const selectedStatus = orderStatusSelect.value;-->
+
+<!--            for (let i = 0; i < ordersSections.length; i++) {-->
+<!--                const section = ordersSections[i];-->
+<!--                section.classList.add('hidden');-->
+<!--            }-->
+
+<!--            if (selectedStatus === 'all') {-->
+<!--                for (let i = 0; i < ordersSections.length; i++) {-->
+<!--                    const section = ordersSections[i];-->
+<!--                    section.classList.remove('hidden');-->
+<!--                }-->
+<!--            } else {-->
+<!--                const selectedSection = document.getElementById(`${selectedStatus}-orders`);-->
+<!--                if (selectedSection) {-->
+<!--                    selectedSection.classList.remove('hidden');-->
+<!--                }-->
+<!--            }-->
+<!--        });-->
+
+<!--        // Trigger change event to show the initial section-->
+<!--        orderStatusSelect.dispatchEvent(new Event('change'));-->
+<!--    });-->
+<!--</script>-->
+<!--</body>-->
+
+
 <body class="bg-gray-100">
 <div class="w-full max-w-7xl mx-auto">
   <% if notice.present? %>
@@ -22,7 +325,6 @@
       <option value="delivered">Delivered Orders</option>
     </select>
   </div>
-
 
   <div id="orders-container" class="mt-8 space-y-6">
     <div id="recent-orders" class="orders-section hidden">
@@ -67,6 +369,7 @@
                 <% end %>
                 </tbody>
               </table>
+
             </div>
           </div>
         </div>
@@ -74,7 +377,7 @@
     </div>
 
     <div id="unfulfilled-orders" class="orders-section hidden">
-      <h2 class="font-bold text-2xl mb-4">Unfulfilled Orders</h2>
+      <h2 class="font-bold text-2xl mb-4">Pending Orders</h2>
       <div class="flex flex-col w-full">
         <div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
           <div class="py-2 inline-block min-w-full">
@@ -115,6 +418,9 @@
                 <% end %>
                 </tbody>
               </table>
+              <div class="mt-4">
+                <%= paginate @not_fulfilled_orders, param_name: 'not_fulfilled_page' %>
+              </div>
             </div>
           </div>
         </div>
@@ -163,6 +469,9 @@
                 <% end %>
                 </tbody>
               </table>
+              <div class="mt-4">
+                <%= paginate @fulfilled_orders, param_name: 'fulfilled_page' %>
+              </div>
             </div>
           </div>
         </div>
@@ -211,6 +520,9 @@
                 <% end %>
                 </tbody>
               </table>
+              <div class="mt-4">
+                <%= paginate @progress_orders, param_name: 'progress_page' %>
+              </div>
             </div>
           </div>
         </div>
@@ -259,6 +571,9 @@
                 <% end %>
                 </tbody>
               </table>
+              <div class="mt-4">
+                <%= paginate @delivered_orders, param_name: 'delivered_page' %>
+              </div>
             </div>
           </div>
         </div>

@@ -1,14 +1,12 @@
-# app/controllers/admin/orders_controller.rb
 class Admin::OrdersController < AdminController
   before_action :set_admin_order, only: %i[show edit update destroy]
 
   def index
-
-    @recent_orders = Order.order(created_at: :desc).limit(10)
-    @not_fulfilled_orders = Order.where(status: 'Pending').order(created_at: :asc)
-    @fulfilled_orders = Order.where(status: 'Fulfilled').order(created_at: :asc)
-    @progress_orders = Order.where(status: 'Progress').order(created_at: :asc)
-    @delivered_orders = Order.where(status: 'Delivered').order(created_at: :asc)
+    @recent_orders = Order.order(created_at: :desc).page(params[:recent_page]).per(10)
+    @not_fulfilled_orders = Order.where(status: 'Pending').order(created_at: :asc).page(params[:not_fulfilled_page]).per(10)
+    @fulfilled_orders = Order.where(status: 'Fulfilled').order(created_at: :asc).page(params[:fulfilled_page]).per(10)
+    @progress_orders = Order.where(status: 'Progress').order(created_at: :asc).page(params[:progress_page]).per(10)
+    @delivered_orders = Order.where(status: 'Delivered').order(created_at: :asc).page(params[:delivered_page]).per(10)
   end
 
   def show
@@ -60,7 +58,6 @@ class Admin::OrdersController < AdminController
       format.json { head :no_content }
     end
   end
-
 
   private
 
