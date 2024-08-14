@@ -2,7 +2,6 @@ class CategoriesController < ApplicationController
   def show
     @category = Category.find(params[:id])
 
-    # Apply filtering based on the params[:filter]
     @products = @category.products.where(visible: true)
 
     case params[:filter]
@@ -16,6 +15,6 @@ class CategoriesController < ApplicationController
       @products = @products.page(params[:page])
     end
 
-    @products = @products.page(params[:page]).per(8) # Change 8 to the number of products you want per page
+    @products = @products.page(params[:page]).per(8)
   end
 end

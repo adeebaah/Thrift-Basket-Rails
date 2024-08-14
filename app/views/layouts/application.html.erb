@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <title>Ecommerce</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -75,7 +75,7 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log('Cart data:', data); // Log the response to check its structure
+                    console.log('Cart data:', data);
                     const cartCountValue = data.cart_items.reduce((total, item) => total + item.quantity, 0);
                     cartCount.innerText = cartCountValue;
                 })
@@ -91,7 +91,7 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log('Wishlist data:', data); // Log the response to check its structure
+                    console.log('Wishlist data:', data);
                     const wishlistCountValue = data.wishlist_items.length;
                     wishlistCount.innerText = wishlistCountValue;
                 })
@@ -99,7 +99,7 @@
         }
 
         updateWishlistCount();
-        updateCartCount(); // Call the function to update the cart count on page load
+        updateCartCount();
     });
 </script>
 </body>

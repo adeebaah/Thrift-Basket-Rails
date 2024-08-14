@@ -83,3 +83,6 @@ gem 'jquery-rails'
 gem "jquery-slick-rails"
 
 gem "kaminari"
+gem "omniauth"
+gem "omniauth-google-oauth2"
+gem 'omniauth-rails_csrf_protection', '~> 0.1.2'
