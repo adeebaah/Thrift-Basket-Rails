@@ -8,6 +8,28 @@
   <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   <%= javascript_importmap_tags %>
+
+
+  <script async defer crossorigin="anonymous"
+          src="https://connect.facebook.net/en_US/sdk.js"></script>
+  <script>
+      window.fbAsyncInit = function() {
+          FB.init({
+              appId      : '<%= ENV["FACEBOOK_APP_ID"] %>',
+              cookie     : true,
+              xfbml      : true,
+              version    : 'v16.0'
+          });
+      };
+
+      (function(d, s, id){
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) {return;}
+          js = d.createElement(s); js.id = id;
+          js.src = "https://connect.facebook.net/en_US/sdk.js";
+          fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+  </script>
 </head>
 
 <body class="bg-white" data-turbo="false">
@@ -20,20 +42,20 @@
 <div class="mt-2">
   <% if controller_name == 'home' && action_name == 'index' %>
     <div class="w-full flex justify-center mb-6">
-      <div class="relative w-full max-w-8xl mx-4 text-black p-8 flex items-center transition-all duration-300 rounded-lg cursor-pointer justify-center" style="height: 85vh; background-image: url(<%= asset_path('bgh.jpg') %>); background-repeat: no-repeat; background-position: center;  background-size: cover">
+      <div class="relative w-full max-w-8xl mx-4 text-black p-8 flex items-center transition-all duration-300 rounded-lg cursor-pointer justify-center" style="height: 85vh; background-image: url(<%= asset_path('bgh.jpg') %>); background-repeat: no-repeat; background-position: center; background-size: cover">
         <div class="absolute inset-0 bg-white opacity-15"></div>
         <div class="relative z-10">
           <div class="text-center p-5 rounded">
             <h1 class="text-5xl mt-5 font-bold">Welcome to Thrift Basket</h1>
             <br>
             <%= link_to "Browse Collection", products_path, class: "bg-gray-600 hover:bg-gray-700 text-black font-bold py-2 px-4 rounded" %>
+
           </div>
         </div>
       </div>
+    </div>
   <% end %>
-  </div>
 </div>
-
 
 <div class="flex">
   <% if controller_name == 'products' && action_name == 'index' %>
@@ -51,7 +73,6 @@
     <main class="container mx-auto mt-28 ml-72 <%= ['sessions', 'registrations', 'reviews'].include?(controller_name) ? 'max-w-3xl' : 'max-w-9xl' %> px-2 pt-2 sm:px-6 lg:px-8">
 
   <% else %>
-
     <main class="container mx-auto mt-28 <%= ['sessions', 'registrations', 'reviews'].include?(controller_name) ? 'max-w-3xl' : 'max-w-9xl' %> px-4 sm:px-6 lg:px-8">
   <% end %>
   <%= yield %>
@@ -62,6 +83,42 @@
 <%= javascript_include_tag "alerts" %>
 
 <script>
+    function loginWithFacebook() {
+        FB.login(function(response) {
+            if (response.authResponse) {
+                console.log('Welcome! Fetching your information....');
+                FB.api('/me', { fields: 'id,name,email' }, function(response) {
+                    console.log('Good to see you, ' + response.name + '.');
+
+                    fetch('/auth/facebook/callback', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({
+                            accessToken: FB.getAuthResponse().accessToken,
+                            userID: response.id,
+                            name: response.name,
+                            email: response.email
+                        })
+                    }).then(function(response) {
+                        return response.json();
+                    }).then(function(data) {
+                        console.log(data);
+                        if (data.success) {
+                            window.location.href = '/';
+                        } else {
+                            alert('Facebook login failed.');
+                        }
+                    });
+                });
+            } else {
+                console.log('User cancelled login or did not fully authorize.');
+            }
+        }, {scope: 'email'});
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
         const cartCount = document.getElementById('cart-count');
         const wishlistCount = document.getElementById('wishlist-count');
@@ -102,5 +159,8 @@
         updateCartCount();
     });
 </script>
+
+
+
 </body>
 </html>

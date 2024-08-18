@@ -41,6 +41,12 @@ Rails.application.routes.draw do
   # google oauth
   get '/auth/google_oauth2/callback', to: 'sessions#google_callback'
 
+  # Facebook oauth
+  post '/auth/facebook/callback', to: 'sessions#facebook_callback'
+
+  # Github oauth
+  get '/auth/github/callback', to: 'sessions#github_callback'
+
   resources :categories, only: [:show]
 
   resources :products, only: [:show, :index] do
