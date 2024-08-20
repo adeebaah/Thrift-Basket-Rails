@@ -109,7 +109,12 @@
                         if (data.success) {
                             window.location.href = '/';
                         } else {
-                            alert('Facebook login failed.');
+                            if (data.message) {
+                                // Display the alert with the message from the server
+                                alert(data.message);
+                            } else {
+                                alert('Facebook login failed.');
+                            }
                         }
                     });
                 });
@@ -118,6 +123,7 @@
             }
         }, {scope: 'email'});
     }
+
 
     document.addEventListener('DOMContentLoaded', () => {
         const cartCount = document.getElementById('cart-count');

@@ -4,15 +4,18 @@
 
   class SessionsController < ApplicationController
 
-    def new
-      @google_client_id = ENV['GOOGLE_CLIENT_ID']
-    end
-
     def facebook_callback
       access_token = params[:accessToken]
       user_id = params[:userID]
       email = params[:email]
       name = params[:name]
+
+      existing_user = User.find_by(email: email)
+
+      if existing_user && existing_user.provider != 'facebook'
+        render json: { success: false, message: "This email is already associated with a different provider. Please log in using #{existing_user.provider.capitalize}." }
+        return
+      end
 
       user = User.find_or_create_by(email: email) do |u|
         u.name = name
@@ -29,6 +32,7 @@
         render json: { success: false, errors: user.errors.full_messages }
       end
     end
+
     def google_callback
       code = params[:code]
 
@@ -55,7 +59,13 @@
       user_info = JSON.parse(user_info_response.body)
 
 
-      logger.debug "Google user info: #{user_info.inspect}"
+      existing_user = User.find_by(email: user_info['email'])
+
+      if existing_user && existing_user.provider != 'google'
+        provider_name = existing_user.provider.nil? ? "the original method (email/password)" : existing_user.provider.capitalize
+        redirect_to new_user_registration_path, alert: "This email is already associated with #{provider_name}. Please log in using #{provider_name}."
+        return
+      end
 
       user = User.find_or_create_by(email: user_info['email']) do |u|
         u.name = user_info['name']
@@ -66,19 +76,22 @@
       end
 
       if user.persisted?
-        logger.debug "User successfully created or found: #{user.inspect}"
         sign_in(user)
         redirect_to root_path, notice: 'Signed in successfully.'
       else
-        logger.debug "User creation failed: #{user.errors.full_messages}"
         redirect_to new_user_registration_path, alert: 'Error creating user account.'
       end
     end
 
+
     def github_callback
       code = params[:code]
 
-      # Exchange the code for an access token
+      if code.blank?
+        redirect_to root_path, alert: 'Authorization failed. Please try again.'
+        return
+      end
+
       uri = URI('https://github.com/login/oauth/access_token')
       response = Net::HTTP.post_form(uri, {
         'code' => code,
@@ -91,7 +104,6 @@
       body = URI.decode_www_form(response.body).to_h
       access_token = body['access_token']
 
-      # Fetch user info from GitHub
       user_info_uri = URI('https://api.github.com/user')
       request = Net::HTTP::Get.new(user_info_uri)
       request['Authorization'] = "token #{access_token}"
@@ -102,7 +114,14 @@
 
       user_info = JSON.parse(user_info_response.body)
 
-      # Find or create the user
+      # Check if the email exists with a different provider
+      existing_user = User.find_by(email: user_info['email'])
+
+      if existing_user && existing_user.provider != 'github'
+        redirect_to new_user_registration_path, alert: "This email is already associated with a different provider. Please log in using #{existing_user.provider.capitalize}."
+        return
+      end
+
       user = User.find_or_create_by(email: user_info['email']) do |u|
         u.name = user_info['name'] || user_info['login']
         u.provider = 'github'
@@ -118,11 +137,4 @@
         redirect_to new_user_registration_path, alert: 'Error creating user account.'
       end
     end
-  def authenticated
-    render json: { authenticated: user_signed_in? }
   end
-
-  end
-
-
-

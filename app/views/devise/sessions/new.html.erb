@@ -5,6 +5,11 @@
       <h2 class="mt-6 text-center text-3xl font-bold text-gray-900">Log in</h2>
     </div>
 
+    <div class="alert alert-danger" role="alert" id="alert-box" style="display: none;">
+      <%= alert %>
+    </div>
+
+
     <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "mt-8 space-y-6" }) do |f| %>
       <div class="rounded-md shadow-sm space-y-6">
         <div class="mb-4 relative">
@@ -43,7 +48,7 @@
           <i class="fab fa-facebook fa-2x"></i>
         </a>
 
-        <a href="#" onclick="redirectToGithubOAuth(event)" data-turbolinks="false" class="text-gray-600 hover:text-black">
+        <a href="#" onclick="redirectToGithubOAuth()" data-turbolinks="false" class="text-gray-600 hover:text-black">
           <i class="fab fa-github fa-2x"></i>
         </a>
       </div>
@@ -73,18 +78,19 @@
 </script>
 
 <script>
-    function redirectToGithubOAuth(event) {
-        event.preventDefault();
-        console.log("GitHub OAuth button clicked");
+    function redirectToGithubOAuth() {
+
+        console.log("GitHub OAuth button clicked");  // This should appear in the console when the button is clicked.
         const clientId = '<%= ENV["GITHUB_CLIENT_ID"] %>';
         const redirectUri = 'http://localhost:3000/auth/github/callback';
         const scope = 'user';
         const authUrl = `https://github.com/login/oauth/authorize?client_id=` + clientId +
-          `&redirect_uri=` + encodeURIComponent(redirectUri) +
-          `&scope=` + scope;
+            `&redirect_uri=` + encodeURIComponent(redirectUri) +
+            `&scope=` + scope;
 
-        window.location.href = authUrl;
+        window.location.href = authUrl;  // This should redirect the user to GitHub's authorization page.
     }
+
 </script>
 
 
