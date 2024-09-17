@@ -2,7 +2,6 @@ Rails.application.routes.draw do
   # Root path
   root "home#index"
 
-  # Devise routes for users with custom controllers
   devise_for :users, controllers: {
     registrations: 'registrations',
     sessions: 'users/sessions'
@@ -12,13 +11,11 @@ Rails.application.routes.draw do
     sign_out: 'logout',
   }
 
-  # Devise routes for admins
   devise_for :admins
 
   get 'load_more_products', to: 'home#load_more_products'
   get 'new_arrivals', to: 'products#new_arrivals'
 
-  # Namespace for admin routes
   namespace :admin do
     resources :orders
     resources :products do
@@ -27,22 +24,28 @@ Rails.application.routes.draw do
     resources :categories
   end
 
-  # Authenticated root for admin
   authenticated :admin_user do
     root to: "admin#index", as: :admin_root
   end
 
-  # Admin route
   get '/admin', to: 'admin#index'
 
-  # Profile routes
+
   get 'profile', to: 'profiles#show', as: 'profile'
   get 'profile/edit', to: 'profiles#edit', as: 'edit_profile'
   patch 'profile', to: 'profiles#update'
 
-  # Additional routes
   get 'profiles/show'
   get 'authenticated', to: 'sessions#authenticated'
+
+  # google oauth
+  get '/auth/google_oauth2/callback', to: 'sessions#google_callback'
+
+  # Facebook oauth
+  post '/auth/facebook/callback', to: 'sessions#facebook_callback'
+
+  # Github oauth
+  get '/auth/github/callback', to: 'sessions#github_callback'
 
   resources :categories, only: [:show]
 

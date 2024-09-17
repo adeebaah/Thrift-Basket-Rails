@@ -1,9 +1,14 @@
-<!-- app/views/devise/sessions/new.html.erb -->
+
 <div class="min-h-screen flex items-center justify-center bg-gray-100">
   <div class="max-w-md w-full space-y-8">
     <div>
       <h2 class="mt-6 text-center text-3xl font-bold text-gray-900">Log in</h2>
     </div>
+
+    <div class="alert alert-danger" role="alert" id="alert-box" style="display: none;">
+      <%= alert %>
+    </div>
+
 
     <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "mt-8 space-y-6" }) do |f| %>
       <div class="rounded-md shadow-sm space-y-6">
@@ -22,14 +27,72 @@
       </div>
 
       <div class="flex items-center justify-between">
-        <%= f.submit "Log in", class: "group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+        <%= f.submit "Log in", class: "group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" , data: { turbolinks: false } %>
       </div>
+
+      <div class="mt-6 text-center text-gray-600">
+        <span class="inline-block w-full border-b border-gray-300 mb-4"></span>
+      </div>
+
+      <div class="flex items-center justify-center mt-4">
+        <h1 class="text-gray-600 text-sm">Or you can join with</h1>
+      </div>
+
+      <div class="flex items-center justify-center mt-6 space-x-4">
+
+        <a href="#" onclick="redirectToGoogleOAuth()" data-turbolinks="false" class="text-gray-600 hover:text-red-500">
+          <i class="fab fa-google fa-2x"></i>
+        </a>
+
+        <a href="#" onclick="loginWithFacebook()" class="text-gray-600 hover:text-blue-500">
+          <i class="fab fa-facebook fa-2x"></i>
+        </a>
+
+        <a href="#" onclick="redirectToGithubOAuth()" data-turbolinks="false" class="text-gray-600 hover:text-black">
+          <i class="fab fa-github fa-2x"></i>
+        </a>
+      </div>
+
+
       <div class="mt-2 text-center">
         <%= render "devise/shared/links" %>
       </div>
     <% end %>
   </div>
+
 </div>
+
+<script>
+    function redirectToGoogleOAuth() {
+        const clientId = '423270519167-4ud3chhon6mnemeodcqve4ar7k246css.apps.googleusercontent.com';  // Client ID from environment variable
+        const redirectUri = 'http://localhost:3000/auth/google_oauth2/callback';
+        const scope = 'profile email';
+        const responseType = 'code';
+        const authUrl = `https://accounts.google.com/o/oauth2/auth?client_id=` + clientId +
+          `&redirect_uri=` + encodeURIComponent(redirectUri) +
+          `&scope=` + scope +
+          `&response_type=` + responseType;
+
+        window.location.href = authUrl;
+    }
+</script>
+
+<script>
+    function redirectToGithubOAuth() {
+
+        console.log("GitHub OAuth button clicked");  // This should appear in the console when the button is clicked.
+        const clientId = '<%= ENV["GITHUB_CLIENT_ID"] %>';
+        const redirectUri = 'http://localhost:3000/auth/github/callback';
+        const scope = 'user';
+        const authUrl = `https://github.com/login/oauth/authorize?client_id=` + clientId +
+            `&redirect_uri=` + encodeURIComponent(redirectUri) +
+            `&scope=` + scope;
+
+        window.location.href = authUrl;  // This should redirect the user to GitHub's authorization page.
+    }
+
+</script>
+
 
 <script>
     function togglePasswordVisibility(id) {

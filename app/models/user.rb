@@ -9,10 +9,11 @@ class User < ApplicationRecord
   has_one :wishlist, dependent: :destroy
   after_create :initialize_wishlist
 
-  validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP, message: "must contain @" }
-  validates :phone, presence: true, length: { is: 11, message: "Must be 11 digits long" }
-  validates :address, presence: true, length: { minimum: 5, message: "Must be at least 5 characters long" }
-  validate :password_complexity
+  validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP, message: "must contain @" }
+  validates :phone, presence: true, length: { is: 11, message: "Must be 11 digits long" }, unless: :oauth_signup?
+  validates :address, presence: true, length: { minimum: 5, message: "Must be at least 5 characters long" }, unless: :oauth_signup?
+  validate :password_complexity, unless: :oauth_signup?
+
   def create_cart
     Cart.create(user: self)
   end
@@ -27,6 +28,10 @@ class User < ApplicationRecord
 
   private
 
+  def oauth_signup?
+    provider.present? && uid.present?
+  end
+
   def password_complexity
     return if password.blank?
 
@@ -38,5 +43,4 @@ class User < ApplicationRecord
       errors.add :password, 'must be at least 8 characters long.'
     end
   end
-
 end
