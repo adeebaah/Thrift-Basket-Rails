@@ -1,5 +1,7 @@
-class AddStatusToOrders < ActiveRecord::Migration[7.1]
+class AddStatusToOrders < ActiveRecord::Migration[6.1]
   def change
-    add_column :orders, :status, :string
+    unless column_exists?(:orders, :status)
+      add_column :orders, :status, :string
+    end
   end
 end

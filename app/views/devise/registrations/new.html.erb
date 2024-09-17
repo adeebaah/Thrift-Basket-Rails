@@ -5,32 +5,6 @@
     </div>
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "mt-8 space-y-6" }) do |f| %>
       <div class="rounded-md shadow-sm space-y-6">
-        <div class="mb-4 relative">
-          <%= f.label :name, class: "sr-only" %>
-          <%= f.text_field :name, autofocus: true, class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm pl-10", placeholder: "Name" %>
-          <i class="fa fa-user absolute left-3 top-3 text-gray-400"></i>
-          <% if resource.errors[:name].present? %>
-            <div class="text-red-500 text-sm mt-1"><%= resource.errors[:name].first %></div>
-          <% end %>
-        </div>
-
-        <div class="mb-4 relative">
-          <%= f.label :phone, class: "sr-only" %>
-          <%= f.text_field :phone, class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm pl-10", placeholder: "Phone" %>
-          <i class="fa fa-phone absolute left-3 top-3 text-gray-400"></i>
-          <% if resource.errors[:phone].present? %>
-            <div class="text-red-500 text-sm mt-1"><%= resource.errors[:phone].first %></div>
-          <% end %>
-        </div>
-
-        <div class="mb-4 relative">
-          <%= f.label :address, class: "sr-only" %>
-          <%= f.text_field :address, class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm pl-10", placeholder: "Address" %>
-          <i class="fa fa-map-marker absolute left-3 top-3 text-gray-400"></i>
-          <% if resource.errors[:address].present? %>
-            <div class="text-red-500 text-sm mt-1"><%= resource.errors[:address].first %></div>
-          <% end %>
-        </div>
 
         <div class="mb-4 relative">
           <%= f.label :email, class: "sr-only" %>
@@ -41,11 +15,7 @@
           <% end %>
         </div>
 
-        <div>
-          <%= f.label :dob, 'Date of Birth', class: 'block text-sm font-medium text-gray-700' %>
-          <%= f.date_field :dob, class: 'block w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
-        </div>
-
+        <!-- Password Fields (Common for Admin and User) -->
         <div class="mb-4 relative">
           <%= f.label :password, class: "sr-only" %>
           <%= f.password_field :password, autocomplete: "off", class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm pl-10", placeholder: "Password", id: "password" %>
@@ -69,6 +39,42 @@
             <i class="far fa-eye text-gray-500" id="togglePasswordConfirmIcon"></i>
           </button>
         </div>
+
+        <!-- Show extra fields (phone, address, etc.) only for User -->
+        <% if resource.is_a?(User) %>
+          <div class="mb-4 relative">
+            <%= f.label :name, class: "sr-only" %>
+            <%= f.text_field :name, autofocus: true, class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm pl-10", placeholder: "Name" %>
+            <i class="fa fa-user absolute left-3 top-3 text-gray-400"></i>
+            <% if resource.errors[:name].present? %>
+              <div class="text-red-500 text-sm mt-1"><%= resource.errors[:name].first %></div>
+            <% end %>
+          </div>
+
+          <div class="mb-4 relative">
+            <%= f.label :phone, class: "sr-only" %>
+            <%= f.text_field :phone, class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm pl-10", placeholder: "Phone" %>
+            <i class="fa fa-phone absolute left-3 top-3 text-gray-400"></i>
+            <% if resource.errors[:phone].present? %>
+              <div class="text-red-500 text-sm mt-1"><%= resource.errors[:phone].first %></div>
+            <% end %>
+          </div>
+
+          <div class="mb-4 relative">
+            <%= f.label :address, class: "sr-only" %>
+            <%= f.text_field :address, class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm pl-10", placeholder: "Address" %>
+            <i class="fa fa-map-marker absolute left-3 top-3 text-gray-400"></i>
+            <% if resource.errors[:address].present? %>
+              <div class="text-red-500 text-sm mt-1"><%= resource.errors[:address].first %></div>
+            <% end %>
+          </div>
+
+          <div>
+            <%= f.label :dob, 'Date of Birth', class: 'block text-sm font-medium text-gray-700' %>
+            <%= f.date_field :dob, class: 'block w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
+          </div>
+        <% end %>
+
       </div>
 
       <div class="flex items-center justify-between">

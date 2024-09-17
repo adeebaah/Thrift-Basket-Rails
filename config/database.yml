@@ -9,15 +9,33 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
 
+#development:
+#  # config/database.yml
+#    adapter: postgresql
+#    encoding: unicode
+#    database: ecommerce_db
+#    pool: <%#= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+#    username: ecommerce
+#    password: password
+#    host: localhost
+
+
 development:
-  # config/database.yml
-    adapter: postgresql
-    encoding: unicode
-    database: ecommerce_db
-    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-    username: ecommerce
-    password: password
-    host: localhost
+  adapter: postgresql
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+  username: postgres
+  password: password
+  host: db
+  database: thrift_db_with_docker
+
+#development:
+#  adapter: postgresql
+#  encoding: unicode
+#  database: ecommerce_db
+#  username: ecommerce
+#  password: password
+#  host: host.docker.internal
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
